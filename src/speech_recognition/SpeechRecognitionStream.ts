@@ -41,6 +41,8 @@ class SpeechRecognitionStream {
     this.recorder = recorder.record(SpeechRecognitionStream.recorderOptions);
     // Pipe recorded audio into the audio recognition stream.
     this.recorder.stream().pipe(this.textStream);
+    // Do not record audio until manually started.
+    this.recorder.pause();
   }
 
   /**

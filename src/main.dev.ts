@@ -209,16 +209,16 @@ ipcMain.on('show-mainwindow-to-main', () => {
 });
 
 // Speech recognition
-ipcMain.on('start-stream', (event) => {
-  const speechRecognitionStream = SpeechRecognitionStream.getInstance();
+const speechRecognitionStream = SpeechRecognitionStream.getInstance();
+
+ipcMain.on('start-stream', () => speechRecognitionStream.start());
+
+// Attach reply listener only once.
+ipcMain.once('start-stream', (event) => {
   const textStream = speechRecognitionStream.getTextStream();
   textStream.on('data', (data) =>
     event.reply('transcription', data.results[0].alternatives[0].transcript)
   );
-  speechRecognitionStream.start();
 });
 
-ipcMain.on('stop-stream', () => {
-  const speechRecognitionStream = SpeechRecognitionStream.getInstance();
-  speechRecognitionStream.stop();
-});
+ipcMain.on('stop-stream', () => speechRecognitionStream.stop());
