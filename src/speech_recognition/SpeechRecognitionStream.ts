@@ -6,6 +6,8 @@ class SpeechRecognitionStream {
 
   private client: SpeechClient;
 
+  private recorder;
+
   private textStream;
 
   // Configuration
@@ -32,22 +34,13 @@ class SpeechRecognitionStream {
       keyFile: 'credentials/key.json',
     });
     // Set up an audio recognition stream.
-    this.textStream = this.client
-      .streamingRecognize(SpeechRecognitionStream.request)
-      .on('error', console.error)
-      .on('data', (data) =>
-        console.log(
-          data.results[0] && data.results[0].alternatives[0]
-            ? `Transcription: ${data.results[0].alternatives[0].transcript}\n`
-            : '\n\nReached transcription time limit, press Ctrl+C\n'
-        )
-      );
+    this.textStream = this.client.streamingRecognize(
+      SpeechRecognitionStream.request
+    );
+    // Set up recorder.
+    this.recorder = recorder.record(SpeechRecognitionStream.recorderOptions);
     // Pipe recorded audio into the audio recognition stream.
-    recorder
-      .record(SpeechRecognitionStream.recorderOptions)
-      .stream()
-      .on('error', console.error)
-      .pipe(this.textStream);
+    this.recorder.stream().pipe(this.textStream);
   }
 
   /**
@@ -70,6 +63,20 @@ class SpeechRecognitionStream {
    */
   public getTextStream() {
     return this.textStream;
+  }
+
+  /**
+   * Stops recording.
+   */
+  public stop() {
+    this.recorder.pause();
+  }
+
+  /**
+   * Starts recording.
+   */
+  public start() {
+    this.recorder.resume();
   }
 }
 
