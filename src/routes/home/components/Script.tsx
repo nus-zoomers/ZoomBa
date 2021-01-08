@@ -13,9 +13,7 @@ const Script: React.FC<ScriptProps> = (props: ScriptProps) => {
       className="script-textarea"
       placeholder="Paste your script here or import a file!"
       aria-placeholder="Paste your script here or import a file!"
-      value={script ?? ''}
-      // rows={30}
-      // cols={50}
+      value={script}
       onChange={(e) => handleScriptChange(e.target.value)}
     />
   );
