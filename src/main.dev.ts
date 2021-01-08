@@ -14,6 +14,8 @@ import path from 'path';
 import { app, BrowserWindow, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+
+import { store } from './app/store';
 import MenuBuilder from './components/menu';
 
 export default class AppUpdater {
@@ -67,10 +69,12 @@ const createWindow = async () => {
     return path.join(RESOURCES_PATH, ...paths);
   };
 
+  const { width, height } = store.get('windowBounds');
+
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728,
+    width,
+    height,
     frame: false,
     icon: getAssetPath('icon.png'),
     webPreferences: {
@@ -97,6 +101,20 @@ const createWindow = async () => {
 
   mainWindow.on('closed', () => {
     mainWindow = null;
+  });
+
+  // The BrowserWindow class extends the node.js core EventEmitter class, so we use that API
+  // to listen to events on the BrowserWindow. The resize event is emitted when the window size changes.
+  mainWindow.on('resize', () => {
+    // The event doesn't pass us the window size, so we call the `getBounds` method which returns an object with
+    // the height, width, and x and y coordinates.
+    if (mainWindow) {
+      const rectangle = mainWindow.getBounds();
+      const newWidth = rectangle.width;
+      const newHeight = rectangle.height;
+      // Now that we have them, save them using the `set` method.
+      store.set('windowBounds', { width: newWidth, height: newHeight });
+    }
   });
 
   const menuBuilder = new MenuBuilder(mainWindow);
