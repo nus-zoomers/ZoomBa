@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { remote } from 'electron';
 import { Theme } from '../home/components/ThemeSelection';
+import ScrollingText from './ScrollingText';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -26,8 +27,18 @@ const Teleprompter = () => {
     window.hide();
   };
 
+  const items = ['line 1', 'line 2', 'line 3', 'line 4'];
+  const [index, setIndex] = useState<number>(0);
+  const [isForward, setIsForward] = useState<boolean>(true);
+
   const handleTeleprompterBack = () => {
     // TODO: Implement back
+    if (index > 0) {
+      setIndex(index - 1);
+    } else {
+      setIndex(items.length - 1);
+    }
+    setIsForward(false);
   };
 
   const handleTeleprompterPausePlay = () => {
@@ -36,6 +47,12 @@ const Teleprompter = () => {
 
   const handleTeleprompterForward = () => {
     // TODO: Implement forward
+    if (index < items.length - 1) {
+      setIndex(index + 1);
+    } else {
+      setIndex(0);
+    }
+    setIsForward(true);
   };
 
   // Placeholder variables for styling, please
@@ -58,17 +75,28 @@ const Teleprompter = () => {
       >
         <i className="fas fa-times" />
       </button>
-      <span className="first-line" style={{ fontSize }}>
-        This is the first line.
-      </span>
-      <span className="second-line" style={{ fontSize: secondLineFontSize }}>
-        This is the second line.
-      </span>
+
+      <ScrollingText
+        scriptArr={items}
+        index={index}
+        style="first-line"
+        isForward={isForward}
+        fontSize={fontSize}
+      />
+
+      <ScrollingText
+        scriptArr={items}
+        index={index + 1}
+        style="second-line"
+        isForward={isForward}
+        fontSize={secondLineFontSize}
+      />
+
       <div className="teleprompter-button-group">
         <button
           type="button"
-          className="teleprompter-back-button"
-          onClick={handleTeleprompterBack}
+          className="teleprompter-foward-button"
+          onClick={handleTeleprompterForward}
         >
           <i className="fas fa-arrow-up" />
         </button>
@@ -83,10 +111,11 @@ const Teleprompter = () => {
             <i className="fas fa-play" />
           )}
         </button>
+
         <button
           type="button"
-          className="teleprompter-foward-button"
-          onClick={handleTeleprompterForward}
+          className="teleprompter-back-button"
+          onClick={handleTeleprompterBack}
         >
           <i className="fas fa-arrow-down" />
         </button>
