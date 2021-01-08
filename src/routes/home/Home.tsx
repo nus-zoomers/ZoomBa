@@ -8,7 +8,7 @@ import Script from './components/Script';
 import ScriptButtons from './components/ScriptButtons';
 import ThemeSelection from './components/ThemeSelection';
 import FontSelection from './components/FontSelection';
-import StartingPrompt from './components/StartingPrompt';
+import ScrollingSettings from './components/ScrollingSettings';
 
 const Home = () => {
   let fileReader: FileReader;
@@ -97,7 +97,7 @@ const Home = () => {
       <div className="config-container">
         <ThemeSelection />
         <FontSelection />
-        <StartingPrompt
+        <ScrollingSettings
           startPrompt={startPrompt}
           setStartPrompt={setStartPrompt}
         />

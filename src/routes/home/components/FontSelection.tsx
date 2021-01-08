@@ -3,7 +3,7 @@ import Slider from '@material-ui/core/Slider';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 
 const FontSelection = () => {
-  const [value, setValue] = React.useState(30);
+  const [value, setValue] = useState(30);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -14,9 +14,6 @@ const FontSelection = () => {
         Font
       </h2>
 
-      <span style={{ fontSize: value }}>Hello world!</span>
-      <br />
-      <br />
       <div className="config-font-selection">
         <TextFieldsIcon fontSize="small" />
         <Slider

@@ -89,7 +89,6 @@
 }
 
 .config-theme-selection {
-  flex: 1;
   border-radius: 1.5rem;
   /* background-color: #282828; */
   margin-bottom: 1.5rem;
@@ -119,11 +118,29 @@
 }
 
 .config-font-selection {
-  flex: 1;
   display: flex;
   gap: 1.5rem;
   align-items: center;
   max-width: 30vw;
+  margin-bottom: 1.5rem;
+}
+
+.config-scrolling-speed {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  max-width: 30vw;
+  margin-bottom: 1.5rem;
+}
+
+.scrolling-settings {
+  flex: 1;
+}
+
+.config-starting-textarea {
+  width: calc(100% - 2rem);
+  min-height: calc(100% - 1rem - 66px);
+  max-height: calc(100% - 1rem - 66px);
 }
 
 .config-label {
