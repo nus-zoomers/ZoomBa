@@ -71,11 +71,15 @@
 
 .config-button-icon:hover {
   cursor: pointer;
+  background-color: #222222;
+}
+
+.config-button-icon:hover > i {
+  background-image: linear-gradient(to bottom right, #9b4290, #2e52c7);
 }
 
 .config-theme-selection {
   flex: 1;
-  margin-top: 1.2rem;
   border-radius: 1.5rem;
   background-color: #282828;
   padding: 1rem;
@@ -86,7 +90,7 @@
   margin: 0.3rem 0;
 }
 
-.config-starting-label {
+.config-label {
   font-size: 1rem;
   margin: 1.2rem 0;
   font-weight: normal;
@@ -94,7 +98,7 @@
 
 .config-start-button {
   height: 2.5rem;
-  margin-top: 1.2rem;
+  margin-top: 1.5rem;
   border: 0;
   border-radius: 1.25rem;
   background-image: linear-gradient(to right, #b653aa, #3a62ea);
@@ -104,4 +108,5 @@
 
 .config-start-button:hover {
   cursor: pointer;
+  background-image: linear-gradient(to right, #9b4290, #2e52c7);
 }
