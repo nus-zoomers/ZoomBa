@@ -114,6 +114,7 @@ const Home = () => {
   };
 
   const handleOpenTeleprompter = () => {
+    save();
     ipcRenderer.send('show-subwindow-to-main', '');
     const window = remote.getCurrentWindow();
     window.minimize();
