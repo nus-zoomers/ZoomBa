@@ -76,7 +76,7 @@
 .config-display {
   flex: 1;
   margin-top: 1.2rem;
-  border-radius: 4vh;
+  border-radius: 1.5rem;
   background-color: #282828;
   padding: 1rem;
 }
