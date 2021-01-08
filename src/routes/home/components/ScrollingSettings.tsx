@@ -41,7 +41,7 @@ const ScrollingSettings: React.FC<ScrollingSettingsProps> = (
       <div className="scrolling-settings-description">
         {isAutoScrolling
           ? 'Auto Scrolling uses voice recognition to toggle your lines for you, giving you a worry-free presentation experience. Scrolling begins once the Starting Prompt is detected.'
-          : 'Have fine grain control over how long each of your lines stay on the screen. Configure the duration by using the slider below.'}
+          : 'Have fine grain control over how long each of your lines stay on the screen. Lines will now remain for fixed durations. Configure the duration by using the slider below.'}
       </div>
       {isAutoScrolling ? (
         <StartingPrompt
