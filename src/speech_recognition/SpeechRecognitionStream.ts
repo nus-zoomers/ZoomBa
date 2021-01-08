@@ -2,7 +2,7 @@ import { SpeechClient } from '@google-cloud/speech';
 import recorder from 'node-record-lpcm16';
 import { Writable } from 'stream';
 
-const speech = require('@google-cloud/speech').v1p1beta1;
+const speech = require('@google-cloud/speech');
 
 // Infinite streaming adapted from
 // https://github.com/googleapis/nodejs-speech/blob/master/samples/infiniteStreaming.js
@@ -65,13 +65,15 @@ class SpeechRecognitionStream {
   }
 
   private startStream() {
+    // Clear current audio input.
     this.audioInput = [];
     this.textStream = this.client
       .streamingRecognize(SpeechRecognitionStream.request)
       .on('error', (err) => {
         // Long duration between audio being sent.
         if (err.code === 11) {
-          this.restartStream();
+          // Not sure if this works.
+          // this.restartStream();
         } else {
           console.error(err);
         }
@@ -79,7 +81,7 @@ class SpeechRecognitionStream {
       .on('data', this.speechCallback);
 
     // Restart stream before stream times out.
-    setTimeout(() => this.restartStream, SpeechRecognitionStream.timeout);
+    setTimeout(() => this.restartStream(), SpeechRecognitionStream.timeout);
   }
 
   private speechCallback(stream) {
@@ -92,6 +94,7 @@ class SpeechRecognitionStream {
     }
   }
 
+  // TODO: Fix this thing accessing stale values.
   private audioInputStreamTransform() {
     return new Writable({
       write: (chunk, encoding, next) => {
@@ -123,11 +126,10 @@ class SpeechRecognitionStream {
         }
         next();
       },
-      final: (callback) => {
+      final: () => {
         if (this.textStream) {
           this.textStream.end();
         }
-        callback();
       },
     });
   }
