@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { remote } from 'electron';
 import { Theme } from '../home/components/ThemeSelection';
 
@@ -26,8 +26,18 @@ const Teleprompter = () => {
     window.hide();
   };
 
+  const [index, setIndex] = useState<number>(0);
+
+  const lines = [
+    'This is the first line.',
+    'This is the second line.',
+    'This is the third line.',
+    'This is the fourth line.',
+  ];
+
   const handleTeleprompterBack = () => {
     // TODO: Implement back
+    setIndex(index <= 0 ? 0 : index - 1);
   };
 
   const handleTeleprompterPausePlay = () => {
@@ -36,6 +46,7 @@ const Teleprompter = () => {
 
   const handleTeleprompterForward = () => {
     // TODO: Implement forward
+    setIndex(index < lines.length - 1 ? index + 1 : index);
   };
 
   // Placeholder variables for styling, please
@@ -58,17 +69,39 @@ const Teleprompter = () => {
       >
         <i className="fas fa-times" />
       </button>
-      <span className="first-line" style={{ fontSize }}>
-        This is the first line.
+      <span
+        className="zeroeth-line"
+        style={{ fontSize }}
+        key={`line-${index - 1}`}
+      >
+        {lines[index - 1] ?? ''}
       </span>
-      <span className="second-line" style={{ fontSize: secondLineFontSize }}>
-        This is the second line.
+      <span className="first-line" style={{ fontSize }} key={`line-${index}`}>
+        {lines[index] ?? ''}
+      </span>
+      <span
+        className={`second-line${
+          lines[index + 1] === undefined || lines[index + 1] === ''
+            ? ' is-empty'
+            : ''
+        }`}
+        style={{ fontSize: secondLineFontSize }}
+        key={`line-${index + 1}`}
+      >
+        {lines[index + 1] ?? ''}
+      </span>
+      <span
+        className="third-line"
+        style={{ fontSize: secondLineFontSize }}
+        key={`line-${index + 2}`}
+      >
+        {lines[index + 2] ?? ''}
       </span>
       <div className="teleprompter-button-group">
         <button
           type="button"
-          className="teleprompter-back-button"
-          onClick={handleTeleprompterBack}
+          className="teleprompter-forward-button"
+          onClick={handleTeleprompterForward}
         >
           <i className="fas fa-arrow-up" />
         </button>
@@ -85,8 +118,8 @@ const Teleprompter = () => {
         </button>
         <button
           type="button"
-          className="teleprompter-foward-button"
-          onClick={handleTeleprompterForward}
+          className="teleprompter-back-button"
+          onClick={handleTeleprompterBack}
         >
           <i className="fas fa-arrow-down" />
         </button>

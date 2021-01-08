@@ -12,12 +12,24 @@
   padding: 0 2rem;
 }
 
+.teleprompter .zeroeth-line {
+  font-size: 1.5rem;
+  font-weight: bold;
+  z-index: 3;
+  border-radius: 0.5rem;
+  opacity: 0;
+  transition: all 0.5s;
+  margin-top: -5rem;
+  position: absolute;
+}
+
 .teleprompter .first-line {
   font-size: 1.5rem;
   font-weight: bold;
   padding: 0.2rem 0.4rem;
   z-index: 2;
   border-radius: 0.5rem;
+  transition: all 0.5s;
 }
 
 .teleprompter .second-line {
@@ -27,6 +39,23 @@
   opacity: 0.3;
   border-radius: 0.3rem;
   margin-top: -0.2rem;
+  transition: all 0.5s;
+}
+
+.teleprompter .second-line.is-empty {
+  padding: 0;
+}
+
+.teleprompter .third-line {
+  font-weight: bold;
+  font-size: 1.1rem;
+  opacity: 0.3;
+  border-radius: 0.3rem;
+  transition: all 0.5s;
+  opacity: 0;
+  z-index: 1;
+  position: absolute;
+  margin-bottom: -3rem;
 }
 
 .teleprompter.is-light .first-line {
