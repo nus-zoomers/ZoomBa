@@ -30,35 +30,41 @@ const Teleprompter = () => {
     }
   );
 
-  useEffect(() => {
-    // content not updated when store is updated
-    const { content, name, prompt } = store.get('script');
-    const { theme, fontSize, autoscroll, speed } = store.get('config');
-
-    setState({
-      content: content.replace(/^\s*[\r\n]/gm, '').split('\n'),
-      name,
-      prompt,
-      theme,
-      fontSize,
-      autoscroll,
-      speed,
-    });
-  }, []);
-
   const [lineNumber, setLineNumber] = useState<number>(-1);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [forceUpdate, setForceUpdate] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (forceUpdate) {
+      // TODO: content not updated when store is updated
+      const { content, name, prompt } = store.get('script');
+      const { theme, fontSize, autoscroll, speed } = store.get('config');
+
+      setState({
+        content: content.replace(/^\s*[\r\n]/gm, '').split('\n'),
+        name,
+        prompt,
+        theme,
+        fontSize,
+        autoscroll,
+        speed,
+      });
+
+      setForceUpdate(false);
+    }
+  }, [forceUpdate]);
 
   useEffect(() => {
     ipcRenderer.on('show-subwindow-from-main', () => {
       const window = remote.getCurrentWindow();
       window.show();
       window.focus();
-      // TODO: can set to refresh script here. cuz currently can't create a new window - can only reuse the same one
       remote.app.dock.hide();
       window.setAlwaysOnTop(true, 'screen-saver');
       window.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
       window.setFullScreenable(false);
+
+      setForceUpdate(true);
     });
   }, []);
 

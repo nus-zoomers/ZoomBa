@@ -179,6 +179,7 @@ const createWindow = async () => {
     shell.openExternal(url);
   });
 
+  // force subWindow devtools to close. disable this if devtools is needed
   subWindow.webContents.on('devtools-opened', () => {
     if (subWindow) {
       subWindow.webContents.closeDevTools();
