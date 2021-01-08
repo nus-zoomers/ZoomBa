@@ -94,8 +94,8 @@ const createWindow = async () => {
 
   subWindow = new BrowserWindow({
     show: false,
-    minWidth: 700,
-    width: 700,
+    minWidth: 750,
+    width: 750,
     height: 150,
     minHeight: 150,
     frame: false,
