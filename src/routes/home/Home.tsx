@@ -10,6 +10,7 @@ const Home = () => {
   let fileReader: FileReader;
 
   const [script, setScript] = useState<string>('');
+  const [scriptName, setScriptName] = useState<string>('');
 
   const handleFileRead = () => {
     if (!fileReader) {
@@ -19,17 +20,22 @@ const Home = () => {
     setScript(content as string);
   };
 
-  const handleFileChosen = (file: Blob | null) => {
+  const handleFileChosen = (file: File | null) => {
     if (!file) return;
     fileReader = new FileReader();
     fileReader.onloadend = handleFileRead;
     fileReader.readAsText(file);
+    setScriptName(file.name);
   };
 
   return (
     <main id="main">
       <div className="script-container">
-        <ConfigButtons handleFileChosen={handleFileChosen} />
+        <ConfigButtons
+          handleFileChosen={handleFileChosen}
+          scriptName={scriptName}
+          setScriptName={setScriptName}
+        />
         <Script script={script} handleScriptChange={setScript} />
       </div>
       <div className="config-container">

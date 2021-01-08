@@ -1,13 +1,15 @@
 import React, { useRef } from 'react';
 
 interface ConfigButtonProps {
-  handleFileChosen: (file: Blob | null) => void;
+  handleFileChosen: (file: File | null) => void;
+  scriptName: string;
+  setScriptName: (name: string) => void;
 }
 
 const ConfigButtons: React.FC<ConfigButtonProps> = (
   props: ConfigButtonProps
 ) => {
-  const { handleFileChosen } = props;
+  const { handleFileChosen, scriptName, setScriptName } = props;
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   const handleButtonClick = () => {
@@ -40,6 +42,8 @@ const ConfigButtons: React.FC<ConfigButtonProps> = (
         <input
           className="script-input-field"
           placeholder="Enter script title here"
+          value={scriptName}
+          onChange={(e) => setScriptName(e.target.value)}
         />
       </div>
     </div>
