@@ -14,13 +14,13 @@
 /* ============= */
 
 .script-container {
-  padding: 2rem 1rem 2rem 2rem;
+  padding: 1rem 1rem 2rem 2rem;
 }
 
 .script-textarea {
   width: calc(100% - 2rem);
-  min-height: calc(100% - 2rem);
-  max-height: calc(100% - 2rem);
+  min-height: calc(100% - 1rem);
+  max-height: calc(100% - 1rem);
 }
 
 #script-upload {
