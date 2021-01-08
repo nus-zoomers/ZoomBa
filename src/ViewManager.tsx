@@ -9,6 +9,7 @@ type ViewOptions = {
 };
 
 // used class component because it's easier to use static.
+// adapted from https://medium.com/@ZoeDreams/multiple-electron-windows-using-a-view-manager-and-react-js-6d8b1e209faf
 class ViewManager extends React.Component<Props<Component>> {
   static Views() {
     const viewOptions: ViewOptions = {

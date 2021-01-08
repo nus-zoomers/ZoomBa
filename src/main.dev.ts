@@ -11,7 +11,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, webContents } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 
@@ -54,6 +54,9 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
+let subWindowId: number;
+let mainWindowId: number;
+
 const createWindow = async () => {
   if (
     process.env.NODE_ENV === 'development' ||
@@ -83,6 +86,7 @@ const createWindow = async () => {
       enableRemoteModule: true,
     },
   });
+  mainWindowId = mainWindow.id;
 
   mainWindow.loadURL(`file://${__dirname}/index.html?main`);
 
@@ -101,6 +105,8 @@ const createWindow = async () => {
       enableRemoteModule: true,
     },
   });
+
+  subWindowId = subWindow.id;
 
   // app.dock.show();
   subWindow.loadURL(`file://${__dirname}/index.html?sub`);
@@ -140,17 +146,17 @@ const createWindow = async () => {
     }
   });
 
-  subWindow.webContents.on('did-finish-load', () => {
-    if (!subWindow) {
-      throw new Error('"subWindow" is not defined');
-    }
-    if (process.env.START_MINIMIZED) {
-      subWindow.minimize();
-    } else {
-      subWindow.show();
-      subWindow.focus();
-    }
-  });
+  // subWindow.webContents.on('did-finish-load', () => {
+  //   if (!subWindow) {
+  //     throw new Error('"subWindow" is not defined');
+  //   }
+  //   if (process.env.START_MINIMIZED) {
+  //     subWindow.minimize();
+  //   } else {
+  //     subWindow.show();
+  //     subWindow.minimize();
+  //   }
+  // });
 
   subWindow.on('closed', () => {
     subWindow = null;
@@ -197,4 +203,12 @@ app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
+});
+
+ipcMain.on('show-subwindow-to-main', () => {
+  webContents.fromId(subWindowId).send('show-subwindow-from-main', '');
+});
+
+ipcMain.on('show-mainwindow-to-main', () => {
+  webContents.fromId(mainWindowId).send('show-mainwindow-from-main', '');
 });
