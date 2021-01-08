@@ -32,6 +32,7 @@ const Home = () => {
 
     ipcRenderer.on('show-mainwindow-from-main', () => {
       const window = remote.getCurrentWindow();
+      remote.app.dock.show();
       window.show();
     });
   }, []);
@@ -100,7 +101,7 @@ const Home = () => {
   };
 
   const handleOpenTeleprompter = () => {
-    ipcRenderer.send('show-subwindow-to-main', 'ping');
+    ipcRenderer.send('show-subwindow-to-main', '');
     const window = remote.getCurrentWindow();
     window.minimize();
   };
