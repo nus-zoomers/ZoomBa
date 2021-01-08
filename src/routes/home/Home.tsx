@@ -10,6 +10,8 @@ import ThemeSelection, { Theme } from './components/ThemeSelection';
 import FontSelection from './components/FontSelection';
 import ScrollingSettings from './components/ScrollingSettings';
 
+const { ipcRenderer } = window.require('electron');
+
 const Home = () => {
   let fileReader: FileReader;
 
@@ -31,6 +33,13 @@ const Home = () => {
     setFontSize(config.fontSize);
     setIsAutoScrolling(config.autoscroll);
     setSpeed(config.speed);
+  }, []);
+
+  useEffect(() => {
+    ipcRenderer.on('show-mainwindow-from-main', () => {
+      const window = remote.getCurrentWindow();
+      window.show();
+    });
   }, []);
 
   const handleFileRead = () => {
@@ -102,6 +111,12 @@ const Home = () => {
     }
   };
 
+  const handleOpenTeleprompter = () => {
+    ipcRenderer.send('show-subwindow-to-main', 'ping');
+    const window = remote.getCurrentWindow();
+    window.minimize();
+  };
+
   return (
     <main id="main">
       <div className="script-container">
@@ -124,7 +139,11 @@ const Home = () => {
           speed={speed}
           setSpeed={setSpeed}
         />
-        <button type="button" className="config-start-button">
+        <button
+          type="button"
+          className="config-start-button"
+          onClick={handleOpenTeleprompter}
+        >
           Start
         </button>
       </div>

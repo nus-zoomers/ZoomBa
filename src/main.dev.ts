@@ -11,7 +11,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, webContents } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 
@@ -27,6 +27,7 @@ export default class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
+let subWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -53,6 +54,9 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
+let subWindowId: number;
+let mainWindowId: number;
+
 const createWindow = async () => {
   if (
     process.env.NODE_ENV === 'development' ||
@@ -65,9 +69,8 @@ const createWindow = async () => {
     ? path.join(process.resourcesPath, 'resources')
     : path.join(__dirname, '../resources');
 
-  const getAssetPath = (...paths: string[]): string => {
-    return path.join(RESOURCES_PATH, ...paths);
-  };
+  const getAssetPath = (...paths: string[]): string =>
+    path.join(RESOURCES_PATH, ...paths);
 
   const { width, height } = store.get('windowBounds');
 
@@ -82,8 +85,28 @@ const createWindow = async () => {
       enableRemoteModule: true,
     },
   });
+  mainWindowId = mainWindow.id;
 
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/index.html?main`);
+
+  subWindow = new BrowserWindow({
+    show: false,
+    width: 300,
+    height: 70,
+    frame: false,
+    transparent: true,
+    hasShadow: false,
+    backgroundColor: '#40b2b2b2',
+    icon: getAssetPath('icon.png'),
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true,
+    },
+  });
+
+  subWindowId = subWindow.id;
+
+  subWindow.loadURL(`file://${__dirname}/index.html?sub`);
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
@@ -117,11 +140,36 @@ const createWindow = async () => {
     }
   });
 
+  // subWindow.webContents.on('did-finish-load', () => {
+  //   if (!subWindow) {
+  //     throw new Error('"subWindow" is not defined');
+  //   }
+  //   if (process.env.START_MINIMIZED) {
+  //     subWindow.minimize();
+  //   } else {
+  //     subWindow.show();
+  //     subWindow.minimize();
+  //   }
+  // });
+
+  subWindow.on('closed', () => {
+    subWindow = null;
+  });
+
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
   // Open urls in the user's browser
   mainWindow.webContents.on('new-window', (event, url) => {
+    event.preventDefault();
+    shell.openExternal(url);
+  });
+
+  const menuBuilderSub = new MenuBuilder(subWindow);
+  menuBuilderSub.buildMenu();
+
+  // Open urls in the user's browser
+  subWindow.webContents.on('new-window', (event, url) => {
     event.preventDefault();
     shell.openExternal(url);
   });
@@ -149,4 +197,12 @@ app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
+});
+
+ipcMain.on('show-subwindow-to-main', () => {
+  webContents.fromId(subWindowId).send('show-subwindow-from-main', '');
+});
+
+ipcMain.on('show-mainwindow-to-main', () => {
+  webContents.fromId(mainWindowId).send('show-mainwindow-from-main', '');
 });
