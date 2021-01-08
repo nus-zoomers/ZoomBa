@@ -1,0 +1,56 @@
+#title-bar {
+  -webkit-app-region: drag;
+  height: 32px;
+  padding: 0px;
+  margin: 0px;
+  color: #adadad;
+  font-family: sans-serif;
+}
+
+#title {
+  position: fixed;
+  top: 0px;
+  line-height: 32px;
+  font-size: 14px;
+  left: 50%;
+}
+
+#title-bar-btns {
+  -webkit-app-region: no-drag;
+  position: fixed;
+  top: 7px;
+  left: 7px;
+}
+
+#title-bar-btns button {
+  height: 12px;
+  width: 12px;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  margin-right: 7px;
+}
+
+#close-btn {
+  background-color: #ec695e;
+}
+
+#close-btn:hover {
+  background-color: #c7392c;
+}
+
+#min-btn {
+  background-color: #f4be4f;
+}
+
+#min-btn:hover {
+  background-color: #ce921a;
+}
+
+#max-btn {
+  background-color: #61c554;
+}
+
+#max-btn:hover {
+  background-color: #348b28;
+}
