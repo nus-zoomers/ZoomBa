@@ -163,6 +163,25 @@
   width: 100%;
 }
 
+.config-scrolling-speed {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  max-width: 30vw;
+  margin-bottom: 1.5rem;
+}
+
+.scrolling-settings {
+  flex: 1;
+  margin-top: 1.5rem;
+}
+
+.config-starting-textarea {
+  width: calc(100% - 2rem);
+  min-height: calc(100% - 1rem - 66px);
+  max-height: calc(100% - 1rem - 66px);
+}
+
 .config-label {
   font-size: 1rem;
   margin: 1.2rem 0;

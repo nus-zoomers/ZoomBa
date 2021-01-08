@@ -13,14 +13,16 @@ const StartingPrompt: React.FC<StartingPromptProps> = (
   return (
     <>
       <h2 className="config-label">Starting Prompt</h2>
-      <textarea
-        className="config-starting-textarea"
-        placeholder="Enter your starting prompt here!"
-        aria-placeholder="Enter your starting prompt here!"
-        value={startPrompt}
-        onChange={(e) => setStartPrompt(e.target.value)}
-        rows={3}
-      />
+      <div className="config-starting-prompt">
+        <textarea
+          className="config-starting-textarea"
+          placeholder="Enter your starting prompt here!"
+          aria-placeholder="Enter your starting prompt here!"
+          value={startPrompt}
+          onChange={(e) => setStartPrompt(e.target.value)}
+          rows={3}
+        />
+      </div>
     </>
   );
 };

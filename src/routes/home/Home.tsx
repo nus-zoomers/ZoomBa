@@ -8,7 +8,7 @@ import Script from './components/Script';
 import ScriptButtons from './components/ScriptButtons';
 import ThemeSelection, { Theme } from './components/ThemeSelection';
 import FontSelection from './components/FontSelection';
-import StartingPrompt from './components/StartingPrompt';
+import ScrollingSettings from './components/ScrollingSettings';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -119,7 +119,7 @@ const Home = () => {
       <div className="config-container">
         <ThemeSelection theme={theme} setTheme={setTheme} fontSize={fontSize} />
         <FontSelection fontSize={fontSize} setFontSize={setFontSize} />
-        <StartingPrompt
+        <ScrollingSettings
           startPrompt={startPrompt}
           setStartPrompt={setStartPrompt}
         />
