@@ -60,6 +60,15 @@
   outline: none;
 }
 
+.config-button-icon > i {
+  font-size: 1.5rem;
+  background-image: linear-gradient(to bottom right, #b653aa, #3a62ea);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .config-button-icon:hover {
   cursor: pointer;
 }

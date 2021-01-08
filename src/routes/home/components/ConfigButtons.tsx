@@ -33,13 +33,13 @@ const ConfigButtons: React.FC<ConfigButtonProps> = (
           className="config-button-icon"
           onClick={handleButtonClick}
         >
-          Icon
+          <i className="fas fa-file-upload" />
         </button>
         Import
       </div>
       <div className="config-button">
         <button type="button" className="config-button-icon">
-          Icon
+          <i className="fas fa-cog" />
         </button>
         Settings
       </div>
