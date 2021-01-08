@@ -29,10 +29,10 @@ const Home = () => {
   return (
     <main id="main">
       <div className="script-container">
+        <ConfigButtons handleFileChosen={handleFileChosen} />
         <Script script={script} handleScriptChange={setScript} />
       </div>
       <div className="config-container">
-        <ConfigButtons handleFileChosen={handleFileChosen} />
         <ThemeSelection />
         <StartingPrompt />
         <button type="button" className="config-start-button">

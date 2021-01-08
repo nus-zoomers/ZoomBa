@@ -19,8 +19,8 @@
 
 .script-textarea {
   width: calc(100% - 2rem);
-  min-height: calc(100% - 1rem);
-  max-height: calc(100% - 1rem);
+  min-height: calc(100% - 1rem - 66px);
+  max-height: calc(100% - 1rem - 66px);
 }
 
 #script-upload {
@@ -52,12 +52,13 @@
 }
 
 .config-button-icon {
-  width: 8vh;
-  height: 8vh;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   border: 0;
   background-color: #252525;
   outline: none;
+  margin-bottom: 1rem;
 }
 
 .config-button-icon > i {
