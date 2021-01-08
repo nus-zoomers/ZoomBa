@@ -10,9 +10,9 @@
   height: calc(100% - 4rem);
 }
 
-/* ============= */
-/* SCRIPT STYLES */
-/* ============= */
+/* ====================== */
+/* SCRIPT TEXTAREA STYLES */
+/* ====================== */
 
 .script-container {
   padding: 1rem 1rem 2rem 2rem;
@@ -24,18 +24,12 @@
   max-height: calc(100% - 1rem - 66px);
 }
 
+/* ===================== */
+/* SCRIPT BUTTONS STYLES */
+/* ===================== */
+
 #script-upload {
   display: none;
-}
-
-/* ============= */
-/* CONFIG STYLES */
-/* ============= */
-
-.config-container {
-  padding: 2rem 2rem 2rem 1rem;
-  display: flex;
-  flex-direction: column;
 }
 
 .script-button-container {
@@ -86,6 +80,16 @@
 
 .script-input-field {
   width: calc(100% - 2rem);
+}
+
+/* =================== */
+/* CONFIG THEME STYLES */
+/* =================== */
+
+.config-container {
+  padding: 2rem 2rem 2rem 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .config-theme-selection {
@@ -152,6 +156,10 @@
   background-color: rgba(255, 255, 255, 0.8);
 }
 
+/* ================== */
+/* CONFIG FONT STYLES */
+/* ================== */
+
 .config-font-selection {
   display: flex;
   gap: 1.5rem;
@@ -163,18 +171,46 @@
   width: 100%;
 }
 
-.config-scrolling-speed {
+/* ======================= */
+/* CONFIG SCROLLING STYLES */
+/* ======================= */
+
+.config-speed-slider-container {
   display: flex;
   gap: 1.5rem;
   align-items: center;
-  max-width: 30vw;
-  margin-bottom: 1.5rem;
+  height: 67px;
 }
 
 .scrolling-settings {
-  flex: 1;
   margin-top: 1.5rem;
 }
+
+.scrolling-settings-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.scrolling-settings-description {
+  color: #7c7c7c;
+  font-weight: 300;
+  margin-bottom: 2rem;
+}
+
+.scrolling-settings-switch span.MuiSwitch-track {
+  background-color: #9b4290;
+}
+
+.config-speed-slider {
+  width: 100%;
+}
+
+/* ====================== */
+/* CONFIG STARTING STYLES */
+/* ====================== */
 
 .config-starting-textarea {
   width: calc(100% - 2rem);

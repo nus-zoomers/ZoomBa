@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
+import React, { useState } from 'react';
+import { Switch } from '@material-ui/core';
 import ScrollSpeedSelection from './ScrollSpeedSelection';
 import StartingPrompt from './StartingPrompt';
 
@@ -20,16 +20,23 @@ const ScrollingSettings: React.FC<ScrollingSettingsProps> = (
 
   return (
     <div className="scrolling-settings">
-      Auto Scrolling
-      <Checkbox
-        className="config-auto-scrolling"
-        checked={isAutoScrolling}
-        onChange={(e: { target: { checked: boolean } }) =>
-          handleCheckBox(e.target.checked)
-        }
-        name="auto scrolling"
-        color="primary"
-      />
+      <div className="scrolling-settings-header">
+        Auto Scrolling
+        <Switch
+          className="scrolling-settings-switch"
+          checked={isAutoScrolling}
+          onChange={(e: { target: { checked: boolean } }) =>
+            handleCheckBox(e.target.checked)
+          }
+          name="auto scrolling"
+          color="primary"
+        />
+      </div>
+      <div className="scrolling-settings-description">
+        {isAutoScrolling
+          ? 'Auto Scrolling uses voice recognition to toggle your lines for you, giving you a worry-free presentation experience. Scrolling begins once the Starting Prompt is detected.'
+          : 'Have fine grain control over how long each of your lines stay on the screen. Configure the duration by using the slider below.'}
+      </div>
       {isAutoScrolling ? (
         <StartingPrompt
           startPrompt={startPrompt}

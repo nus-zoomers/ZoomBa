@@ -4,28 +4,31 @@ import Slider from '@material-ui/core/Slider';
 const ScrollSpeedSelection = () => {
   const [speed, setSpeed] = useState(1.5);
 
-  const handleSpeedChange = (event, newValue) => {
-    setSpeed(newValue);
+  const handleSpeedChange = (
+    _: React.ChangeEvent<unknown>,
+    newValue: number | number[]
+  ) => {
+    setSpeed(newValue as number);
   };
 
   return (
     <>
-      <h2 className="config-label">Scroll Speed</h2>
-
-      <div className="config-scrolling-speed">
-        Slow
+      <h2 className="config-label">Line Duration</h2>
+      <div className="config-speed-slider-container">
+        Fast
         <Slider
-          className="config-font-slider"
+          className="config-speed-slider"
           defaultValue={1.5}
           value={speed}
           aria-labelledby="continuous-slider"
           valueLabelDisplay="auto"
-          step={0.1}
-          min={0.5}
-          max={3}
+          step={0.5}
+          min={1}
+          max={10}
           onChange={handleSpeedChange}
+          valueLabelFormat={(value) => `${value}s`}
         />
-        Fast
+        Slow
       </div>
     </>
   );

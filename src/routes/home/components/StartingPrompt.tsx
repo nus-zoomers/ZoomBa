@@ -20,7 +20,7 @@ const StartingPrompt: React.FC<StartingPromptProps> = (
           aria-placeholder="Enter your starting prompt here!"
           value={startPrompt}
           onChange={(e) => setStartPrompt(e.target.value)}
-          rows={3}
+          rows={2}
         />
       </div>
     </>
