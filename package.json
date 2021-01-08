@@ -249,12 +249,14 @@
     "yarn-deduplicate": "^3.1.0"
   },
   "dependencies": {
+    "@google-cloud/speech": "^4.2.0",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.3.1",
     "electron-updater": "^4.3.4",
     "history": "^5.0.0",
+    "node-record-lpcm16": "^1.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
