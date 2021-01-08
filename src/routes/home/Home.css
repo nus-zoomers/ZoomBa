@@ -18,9 +18,9 @@
 }
 
 .script-textarea {
-  width: calc(100% - 1rem);
-  min-height: calc(100% - 1rem);
-  max-height: calc(100% - 1rem);
+  width: calc(100% - 2rem);
+  min-height: calc(100% - 2rem);
+  max-height: calc(100% - 2rem);
 }
 
 /* ============= */
@@ -44,19 +44,28 @@
   justify-content: center;
   font-size: 0.8rem;
   margin-right: 1rem;
+  font-weight: 300;
 }
 
 .config-button-icon {
   width: 8vh;
   height: 8vh;
+  border-radius: 50%;
+  border: 0;
+  background-color: #252525;
+  outline: none;
+}
+
+.config-button-icon:hover {
+  cursor: pointer;
 }
 
 .config-display {
   flex: 1;
-  margin-top: 1rem;
-  border: 1px black solid;
-  border-radius: 2px;
-  padding: 0.2rem 0.5rem;
+  margin-top: 1.2rem;
+  border-radius: 4vh;
+  background-color: #282828;
+  padding: 1rem;
 }
 
 .config-display > p {
@@ -66,10 +75,20 @@
 
 .config-starting-label {
   font-size: 1rem;
-  margin: 0.6rem 0;
+  margin: 1.2rem 0;
+  font-weight: normal;
 }
 
 .config-start-button {
-  height: 2rem;
-  margin-top: 1rem;
+  height: 2.5rem;
+  margin-top: 1.2rem;
+  border: 0;
+  border-radius: 1.25rem;
+  background-image: linear-gradient(to right, #b653aa, #3a62ea);
+  color: white;
+  outline: none;
+}
+
+.config-start-button:hover {
+  cursor: pointer;
 }

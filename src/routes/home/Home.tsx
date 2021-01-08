@@ -16,7 +16,7 @@ const Home = () => {
         <ConfigDisplay />
         <StartingPrompt />
         <button type="button" className="config-start-button">
-          START
+          Start
         </button>
       </div>
     </main>
