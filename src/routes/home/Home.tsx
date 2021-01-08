@@ -9,6 +9,7 @@ import ScriptButtons from './components/ScriptButtons';
 import ThemeSelection, { Theme } from './components/ThemeSelection';
 import FontSelection from './components/FontSelection';
 import ScrollingSettings from './components/ScrollingSettings';
+import TitleBar from '../../components/titleBar';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -38,6 +39,7 @@ const Home = () => {
   useEffect(() => {
     ipcRenderer.on('show-mainwindow-from-main', () => {
       const window = remote.getCurrentWindow();
+      remote.app.dock.show();
       window.show();
     });
   }, []);
@@ -112,42 +114,49 @@ const Home = () => {
   };
 
   const handleOpenTeleprompter = () => {
-    ipcRenderer.send('show-subwindow-to-main', 'ping');
+    ipcRenderer.send('show-subwindow-to-main', '');
     const window = remote.getCurrentWindow();
     window.minimize();
   };
 
   return (
-    <main id="main">
-      <div className="script-container">
-        <ScriptButtons
-          handleUpload={handleUpload}
-          handleSave={handleSave}
-          scriptName={scriptName}
-          setScriptName={setScriptName}
-        />
-        <Script script={script} handleScriptChange={setScript} />
-      </div>
-      <div className="config-container">
-        <ThemeSelection theme={theme} setTheme={setTheme} fontSize={fontSize} />
-        <FontSelection fontSize={fontSize} setFontSize={setFontSize} />
-        <ScrollingSettings
-          startPrompt={startPrompt}
-          setStartPrompt={setStartPrompt}
-          isAutoScrolling={isAutoScrolling}
-          setIsAutoScrolling={setIsAutoScrolling}
-          speed={speed}
-          setSpeed={setSpeed}
-        />
-        <button
-          type="button"
-          className="config-start-button"
-          onClick={handleOpenTeleprompter}
-        >
-          Start
-        </button>
-      </div>
-    </main>
+    <>
+      <TitleBar />
+      <main id="main">
+        <div className="script-container">
+          <ScriptButtons
+            handleUpload={handleUpload}
+            handleSave={handleSave}
+            scriptName={scriptName}
+            setScriptName={setScriptName}
+          />
+          <Script script={script} handleScriptChange={setScript} />
+        </div>
+        <div className="config-container">
+          <ThemeSelection
+            theme={theme}
+            setTheme={setTheme}
+            fontSize={fontSize}
+          />
+          <FontSelection fontSize={fontSize} setFontSize={setFontSize} />
+          <ScrollingSettings
+            startPrompt={startPrompt}
+            setStartPrompt={setStartPrompt}
+            isAutoScrolling={isAutoScrolling}
+            setIsAutoScrolling={setIsAutoScrolling}
+            speed={speed}
+            setSpeed={setSpeed}
+          />
+          <button
+            type="button"
+            className="config-start-button"
+            onClick={handleOpenTeleprompter}
+          >
+            Start
+          </button>
+        </div>
+      </main>
+    </>
   );
 };
 
