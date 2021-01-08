@@ -8,5 +8,11 @@
    ```sh
    ansible-vault view credentials/encrypted-key.json
    ```
+
    Enter the password when prompted.
+
 1. Copy the decrypted contents into `credentials/key.json`. **Do not add this file to version control.**
+
+## Acknowledgements
+
+This project was built on top of the [Electron React Boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate).

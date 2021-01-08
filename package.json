@@ -1,7 +1,7 @@
 {
-  "name": "electron-react-boilerplate",
-  "productName": "ElectronReact",
-  "description": "Electron application boilerplate based on React, React Router, Webpack, React Fast Refresh for rapid application development",
+  "name": "zoomers",
+  "productName": "Zoomers",
+  "description": "Video conference presentation script renderer / teleprompter",
   "private": "true",
   "scripts": {
     "build": "concurrently \"yarn build:main\" \"yarn build:renderer\"",
@@ -31,8 +31,8 @@
     ]
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "Zoomers",
+    "appId": "org.nus-zoomers.Zoomers",
     "files": [
       "dist/",
       "node_modules/",
@@ -87,13 +87,13 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "owner": "nus-zoomers",
+      "repo": "react-zoomers"
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
+    "url": "git+https://github.com/nus-zoomers/react-zoomers.git"
   },
   "author": {
     "name": "Electron React Boilerplate Maintainers",
@@ -114,7 +114,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
+    "url": "https://github.com/nus-zoomers/react-zoomers/issues"
   },
   "keywords": [
     "electron",
@@ -300,5 +300,5 @@
       "pre-commit": "lint-staged"
     }
   },
-  "version": "1.22.10"
+  "version": "0.0.1"
 }
