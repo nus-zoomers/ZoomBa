@@ -1,8 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { remote } from 'electron';
+
+import { store } from '../../app/store';
 
 import Script from './components/Script';
-import ConfigButtons from './components/ConfigButtons';
+import ScriptButtons from './components/ScriptButtons';
 import ThemeSelection from './components/ThemeSelection';
 import StartingPrompt from './components/StartingPrompt';
 
@@ -12,15 +15,22 @@ const Home = () => {
   const [script, setScript] = useState<string>('');
   const [scriptName, setScriptName] = useState<string>('');
 
+  useEffect(() => {
+    const { content, name } = store.get('script');
+    setScript(content);
+    setScriptName(name);
+  }, []);
+
   const handleFileRead = () => {
     if (!fileReader) {
       return;
     }
     const content = fileReader.result;
+
     setScript(content as string);
   };
 
-  const handleFileChosen = (file: File | null) => {
+  const handleUpload = (file: File | null) => {
     if (!file) return;
     fileReader = new FileReader();
     fileReader.onloadend = handleFileRead;
@@ -28,11 +38,31 @@ const Home = () => {
     setScriptName(file.name);
   };
 
+  const handleSave = () => {
+    let notification;
+    try {
+      store.set('script', { content: script, name: scriptName });
+      notification = {
+        title: 'Saved Successfully',
+        body:
+          'You will see your script the next time you launch the application.',
+      };
+    } catch (e) {
+      notification = {
+        title: 'Failed to Save',
+        body: 'Something went wrong when trying to save your script!',
+      };
+    } finally {
+      new remote.Notification(notification).show();
+    }
+  };
+
   return (
     <main id="main">
       <div className="script-container">
-        <ConfigButtons
-          handleFileChosen={handleFileChosen}
+        <ScriptButtons
+          handleUpload={handleUpload}
+          handleSave={handleSave}
           scriptName={scriptName}
           setScriptName={setScriptName}
         />
