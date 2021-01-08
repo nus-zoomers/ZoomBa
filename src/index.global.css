@@ -25,6 +25,7 @@ body {
   height: 100%;
 }
 
+input,
 textarea {
   font-family: inherit;
   padding: 1rem;
@@ -36,16 +37,12 @@ textarea {
   color: white;
 }
 
-textarea::-webkit-input-placeholder {
-  /* Edge */
-  color: #828282;
-}
-
-textarea:-ms-input-placeholder {
-  /* Internet Explorer 10-11 */
-  color: #828282;
-}
-
+input::-webkit-input-placeholder,
+input:-ms-input-placeholder,
+input::placeholder,
+textarea::-webkit-input-placeholder,
+textarea:-ms-input-placeholder,
 textarea::placeholder {
+  /* Edge */
   color: #828282;
 }

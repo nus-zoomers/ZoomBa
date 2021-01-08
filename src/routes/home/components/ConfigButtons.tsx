@@ -17,8 +17,8 @@ const ConfigButtons: React.FC<ConfigButtonProps> = (
   };
 
   return (
-    <div className="config-button-container">
-      <div className="config-button">
+    <div className="script-button-container">
+      <div className="script-button">
         <input
           type="file"
           id="script-upload"
@@ -30,11 +30,17 @@ const ConfigButtons: React.FC<ConfigButtonProps> = (
         />
         <button
           type="button"
-          className="config-button-icon"
+          className="script-button-icon"
           onClick={handleButtonClick}
         >
           <i className="fas fa-file-upload" />
         </button>
+      </div>
+      <div className="script-input">
+        <input
+          className="script-input-field"
+          placeholder="Enter script title here"
+        />
       </div>
     </div>
   );

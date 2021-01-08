@@ -38,11 +38,11 @@
   flex-direction: column;
 }
 
-.config-button-container {
+.script-button-container {
   display: flex;
 }
 
-.config-button {
+.script-button {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -52,7 +52,7 @@
   font-weight: 300;
 }
 
-.config-button-icon {
+.script-button-icon {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -62,7 +62,7 @@
   margin-bottom: 1rem;
 }
 
-.config-button-icon > i {
+.script-button-icon > i {
   font-size: 1.5rem;
   background-image: linear-gradient(to bottom right, #b653aa, #3a62ea);
   -webkit-background-clip: text;
@@ -71,13 +71,21 @@
   -webkit-text-fill-color: transparent;
 }
 
-.config-button-icon:hover {
+.script-button-icon:hover {
   cursor: pointer;
   background-color: #222222;
 }
 
-.config-button-icon:hover > i {
+.script-button-icon:hover > i {
   background-image: linear-gradient(to bottom right, #9b4290, #2e52c7);
+}
+
+.script-input {
+  flex: 1;
+}
+
+.script-input-field {
+  width: calc(100% - 2rem);
 }
 
 .config-theme-selection {
