@@ -62,6 +62,6 @@ export const store = new Store({
   defaults: {
     // 1024x728 is the default size of our window
     windowBounds: { width: 1024, height: 728 },
-    script: { content: '', name: '' },
+    script: { content: '', name: '', prompt: '' },
   },
 });

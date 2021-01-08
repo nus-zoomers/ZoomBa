@@ -14,11 +14,13 @@ const Home = () => {
 
   const [script, setScript] = useState<string>('');
   const [scriptName, setScriptName] = useState<string>('');
+  const [startPrompt, setStartPrompt] = useState<string>('');
 
   useEffect(() => {
-    const { content, name } = store.get('script');
+    const { content, name, prompt } = store.get('script');
     setScript(content);
     setScriptName(name);
+    setStartPrompt(prompt);
   }, []);
 
   const handleFileRead = () => {
@@ -60,7 +62,11 @@ const Home = () => {
   const handleSave = () => {
     let notification;
     try {
-      store.set('script', { content: script, name: scriptName });
+      store.set('script', {
+        content: script,
+        name: scriptName,
+        prompt: startPrompt,
+      });
       notification = {
         title: 'Saved Successfully',
         body:
@@ -89,7 +95,10 @@ const Home = () => {
       </div>
       <div className="config-container">
         <ThemeSelection />
-        <StartingPrompt />
+        <StartingPrompt
+          startPrompt={startPrompt}
+          setStartPrompt={setStartPrompt}
+        />
         <button type="button" className="config-start-button">
           Start
         </button>
