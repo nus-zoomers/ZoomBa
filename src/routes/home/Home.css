@@ -114,6 +114,10 @@
   justify-content: center;
 }
 
+.config-theme-option:hover {
+  cursor: pointer;
+}
+
 .config-theme-option:not(:last-child) {
   margin-bottom: 1rem;
 }
