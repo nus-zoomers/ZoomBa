@@ -17,6 +17,7 @@ import log from 'electron-log';
 
 import { store } from './app/store';
 import MenuBuilder from './components/menu';
+import SpeechRecognitionStream from './speech_recognition/SpeechRecognitionStream';
 
 export default class AppUpdater {
   constructor() {
@@ -149,4 +150,13 @@ app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
+});
+
+// Speech recognition
+const { ipcMain } = require('electron');
+ipcMain.on('start-stream', (event, _) => {
+  const textStream = SpeechRecognitionStream.getInstance().getTextStream();
+  textStream.on('data', (data) =>
+    event.reply('transcription', data.results[0].alternatives[0].transcript)
+  );
 });

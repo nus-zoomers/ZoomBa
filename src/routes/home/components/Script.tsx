@@ -7,6 +7,10 @@ interface ScriptProps {
 
 const Script: React.FC<ScriptProps> = (props: ScriptProps) => {
   const { script, handleScriptChange } = props;
+  const { ipcRenderer } = require('electron');
+  ipcRenderer.on('transcription', (event, data) => {
+    console.log(data);
+  });
 
   return (
     <textarea

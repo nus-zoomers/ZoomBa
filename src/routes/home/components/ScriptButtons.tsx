@@ -17,6 +17,8 @@ const ScriptButtons: React.FC<ScriptButtonProps> = (
     if (inputFileRef && inputFileRef.current) {
       inputFileRef.current.click();
     }
+    const { ipcRenderer } = require('electron');
+    ipcRenderer.send('start-stream');
   };
 
   return (

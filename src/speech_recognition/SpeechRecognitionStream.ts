@@ -33,15 +33,7 @@ class SpeechRecognitionStream {
     });
     // Set up an audio recognition stream.
     this.textStream = this.client
-      .streamingRecognize(SpeechRecognitionStream.request)
-      .on('error', console.error)
-      .on('data', (data) =>
-        console.log(
-          data.results[0] && data.results[0].alternatives[0]
-            ? `Transcription: ${data.results[0].alternatives[0].transcript}\n`
-            : '\n\nReached transcription time limit, press Ctrl+C\n'
-        )
-      );
+      .streamingRecognize(SpeechRecognitionStream.request);
     // Pipe recorded audio into the audio recognition stream.
     recorder
       .record(SpeechRecognitionStream.recorderOptions)
