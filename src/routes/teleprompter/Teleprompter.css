@@ -1,6 +1,6 @@
 .teleprompter {
   height: 100%;
-  width: 100%;
+  width: calc(100% - 4rem);
   background-color: transparent;
   -webkit-app-region: drag;
   text-align: center;
@@ -9,6 +9,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  padding: 0 2rem;
 }
 
 .teleprompter .first-line {
