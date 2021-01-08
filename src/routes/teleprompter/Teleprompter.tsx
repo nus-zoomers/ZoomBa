@@ -8,7 +8,9 @@ const Teleprompter = () => {
     ipcRenderer.on('show-subwindow-from-main', () => {
       const window = remote.getCurrentWindow();
       window.show();
+      window.focus();
       // TODO: can set to refresh script here. cuz currently can't create a new window- can only reuse the same one
+      remote.app.dock.hide();
       window.setAlwaysOnTop(true, 'screen-saver');
       window.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
       window.setFullScreenable(false);
@@ -16,7 +18,7 @@ const Teleprompter = () => {
   }, []);
 
   const handleTeleprompterExit = () => {
-    ipcRenderer.send('show-mainwindow-to-main', 'ping');
+    ipcRenderer.send('show-mainwindow-to-main', '');
     const window = remote.getCurrentWindow();
 
     // cannot use window.close() due to same reason as above

@@ -29,7 +29,6 @@ class ViewManager extends React.Component<Props<Component>> {
   render() {
     return (
       <>
-        <TitleBar />
         <Router>
           <Switch>
             <Route path="/" component={ViewManager.View} />
