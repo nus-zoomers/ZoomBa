@@ -27,6 +27,7 @@ export default class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
+let subWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -83,7 +84,29 @@ const createWindow = async () => {
     },
   });
 
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/index.html?main`);
+
+  subWindow = new BrowserWindow({
+    show: false,
+    width: 300,
+    height: 70,
+    frame: false,
+    transparent: true,
+    // type: 'toolbar',
+    hasShadow: false,
+    backgroundColor: '#40b2b2b2',
+    icon: getAssetPath('icon.png'),
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true,
+    },
+  });
+
+  // app.dock.show();
+  subWindow.loadURL(`file://${__dirname}/index.html?sub`);
+  // subWindow.setAlwaysOnTop(true, "screen-saver");
+  // subWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+  // subWindow.setFullScreenable(false);
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
@@ -117,11 +140,36 @@ const createWindow = async () => {
     }
   });
 
+  subWindow.webContents.on('did-finish-load', () => {
+    if (!subWindow) {
+      throw new Error('"subWindow" is not defined');
+    }
+    if (process.env.START_MINIMIZED) {
+      subWindow.minimize();
+    } else {
+      subWindow.show();
+      subWindow.focus();
+    }
+  });
+
+  subWindow.on('closed', () => {
+    subWindow = null;
+  });
+
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
   // Open urls in the user's browser
   mainWindow.webContents.on('new-window', (event, url) => {
+    event.preventDefault();
+    shell.openExternal(url);
+  });
+
+  const menuBuilderSub = new MenuBuilder(subWindow);
+  menuBuilderSub.buildMenu();
+
+  // Open urls in the user's browser
+  subWindow.webContents.on('new-window', (event, url) => {
     event.preventDefault();
     shell.openExternal(url);
   });
