@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
-import lightThemeImage from '../assets/theme_light.png';
-import darkThemeImage from '../assets/theme_dark.png';
+import React from 'react';
 
-const ThemeSelection = () => {
-  const [theme, setTheme] = useState('Light');
+export enum Theme {
+  LIGHT = 'LIGHT',
+  DARK = 'DARK',
+}
 
-  const handleSelectTheme = (newTheme: string) => {
-    setTheme(newTheme);
-  };
+interface ThemeSelectionProps {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+  fontSize: number;
+}
+
+const ThemeSelection: React.FC<ThemeSelectionProps> = (
+  props: ThemeSelectionProps
+) => {
+  const { theme, setTheme, fontSize } = props;
+  const secondLineFontSize = fontSize * 0.6;
 
   return (
     <>
@@ -17,25 +25,39 @@ const ThemeSelection = () => {
       <div className="config-theme-selection">
         <button
           type="button"
-          className={
-            theme === 'Light'
-              ? 'config-theme-option-active'
-              : 'config-theme-option'
-          }
-          onClick={() => handleSelectTheme('Light')}
+          className={`config-theme-option${
+            theme === Theme.LIGHT ? ' is-selected' : ''
+          }`}
+          onClick={() => setTheme(Theme.LIGHT)}
         >
-          <img src={lightThemeImage} alt="light theme" />
+          <span className="first-line is-light" style={{ fontSize }}>
+            This is the first line
+          </span>
+          <br />
+          <span
+            className="second-line is-light"
+            style={{ fontSize: secondLineFontSize }}
+          >
+            This is the second line
+          </span>
         </button>
         <button
           type="button"
-          className={
-            theme === 'Dark'
-              ? 'config-theme-option-active'
-              : 'config-theme-option'
-          }
-          onClick={() => handleSelectTheme('Dark')}
+          className={`config-theme-option${
+            theme === Theme.DARK ? ' is-selected' : ''
+          }`}
+          onClick={() => setTheme(Theme.DARK)}
         >
-          <img src={darkThemeImage} alt="dark theme" />
+          <span className="first-line is-dark" style={{ fontSize }}>
+            This is the first line
+          </span>
+          <br />
+          <span
+            className="second-line is-dark"
+            style={{ fontSize: secondLineFontSize }}
+          >
+            This is the second line
+          </span>
         </button>
       </div>
     </>

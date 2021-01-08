@@ -23,6 +23,8 @@ class Store {
 
   data: any;
 
+  defaults: any;
+
   constructor(opts: { configName: string; defaults: any }) {
     // Renderer process has to get `app` module via `remote`, whereas the main process can get it directly
     // app.getPath('userData') will return a string of the user's app data directory path.
@@ -31,11 +33,13 @@ class Store {
     this.path = path.join(userDataPath, `${opts.configName}.json`);
 
     this.data = parseDataFile(this.path, opts.defaults);
+
+    this.defaults = opts.defaults;
   }
 
   // This will just return the property on the `data` object
   get(key: string | number) {
-    return this.data[key];
+    return this.data[key] ?? this.defaults[key];
   }
 
   // ...and this will set it
@@ -63,5 +67,6 @@ export const store = new Store({
     // 1024x728 is the default size of our window
     windowBounds: { width: 1024, height: 728 },
     script: { content: '', name: '', prompt: '' },
+    config: { theme: 'LIGHT', fontSize: 28 },
   },
 });
