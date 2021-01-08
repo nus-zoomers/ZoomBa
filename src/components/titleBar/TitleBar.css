@@ -19,7 +19,7 @@
   -webkit-app-region: no-drag;
   position: fixed;
   top: 7px;
-  left: 7px;
+  left: 10px;
 }
 
 #title-bar-btns button {
