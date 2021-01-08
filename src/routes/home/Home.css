@@ -2,6 +2,7 @@
   width: 100%;
   height: calc(100% - 32px);
   display: flex;
+  flex-direction: row;
   background-color: #1f1f1f;
 }
 
@@ -243,4 +244,29 @@
 .config-start-button:hover {
   cursor: pointer;
   background-image: linear-gradient(to right, #9b4290, #2e52c7);
+}
+
+/* ============= */
+/* MEDIA QUERIES */
+/* ============= */
+
+@media all and (max-width: 700px) {
+  #main {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .script-container {
+    padding-right: 2rem;
+  }
+
+  .script-textarea {
+    min-height: 10rem;
+    max-height: 10rem;
+  }
+
+  .config-container {
+    padding-top: 0;
+    padding-left: 2rem;
+  }
 }
