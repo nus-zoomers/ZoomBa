@@ -174,6 +174,12 @@ const createWindow = async () => {
     shell.openExternal(url);
   });
 
+  subWindow.webContents.on('devtools-opened', () => {
+    if (subWindow) {
+      subWindow.webContents.closeDevTools();
+    }
+  });
+
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();

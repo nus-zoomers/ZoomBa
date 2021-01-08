@@ -8,6 +8,7 @@ const Teleprompter = () => {
     ipcRenderer.on('show-subwindow-from-main', () => {
       const window = remote.getCurrentWindow();
       window.show();
+      window.focus();
       // TODO: can set to refresh script here. cuz currently can't create a new window- can only reuse the same one
       remote.app.dock.hide();
       window.setAlwaysOnTop(true, 'screen-saver');

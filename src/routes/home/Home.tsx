@@ -9,6 +9,7 @@ import ScriptButtons from './components/ScriptButtons';
 import ThemeSelection, { Theme } from './components/ThemeSelection';
 import FontSelection from './components/FontSelection';
 import ScrollingSettings from './components/ScrollingSettings';
+import TitleBar from '../../components/titleBar';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -107,32 +108,39 @@ const Home = () => {
   };
 
   return (
-    <main id="main">
-      <div className="script-container">
-        <ScriptButtons
-          handleUpload={handleUpload}
-          handleSave={handleSave}
-          scriptName={scriptName}
-          setScriptName={setScriptName}
-        />
-        <Script script={script} handleScriptChange={setScript} />
-      </div>
-      <div className="config-container">
-        <ThemeSelection theme={theme} setTheme={setTheme} fontSize={fontSize} />
-        <FontSelection fontSize={fontSize} setFontSize={setFontSize} />
-        <ScrollingSettings
-          startPrompt={startPrompt}
-          setStartPrompt={setStartPrompt}
-        />
-        <button
-          type="button"
-          className="config-start-button"
-          onClick={handleOpenTeleprompter}
-        >
-          Start
-        </button>
-      </div>
-    </main>
+    <>
+      <TitleBar />
+      <main id="main">
+        <div className="script-container">
+          <ScriptButtons
+            handleUpload={handleUpload}
+            handleSave={handleSave}
+            scriptName={scriptName}
+            setScriptName={setScriptName}
+          />
+          <Script script={script} handleScriptChange={setScript} />
+        </div>
+        <div className="config-container">
+          <ThemeSelection
+            theme={theme}
+            setTheme={setTheme}
+            fontSize={fontSize}
+          />
+          <FontSelection fontSize={fontSize} setFontSize={setFontSize} />
+          <ScrollingSettings
+            startPrompt={startPrompt}
+            setStartPrompt={setStartPrompt}
+          />
+          <button
+            type="button"
+            className="config-start-button"
+            onClick={handleOpenTeleprompter}
+          >
+            Start
+          </button>
+        </div>
+      </main>
+    </>
   );
 };
 
