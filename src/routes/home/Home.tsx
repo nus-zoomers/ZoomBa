@@ -57,26 +57,23 @@ const Home = () => {
     if (!file) return;
     const originalScript = script;
     const originalScriptName = scriptName;
-    let notification;
 
     try {
       fileReader = new FileReader();
       fileReader.onloadend = handleFileRead;
       fileReader.readAsText(file);
       setScriptName(file.name);
-      notification = {
+      new remote.Notification({
         title: 'Loaded Successfully',
         body: 'Your script file has been loaded.',
-      };
+      }).show();
     } catch (e) {
       setScript(originalScript);
       setScriptName(originalScriptName);
-      notification = {
-        title: 'Failed to Load Script',
-        body: 'Something went wrong when trying to load your script!',
-      };
-    } finally {
-      new remote.Notification(notification).show();
+      remote.dialog.showErrorBox(
+        'Failed to Load Script',
+        'Something went wrong when trying to load your script!'
+      );
     }
   };
 
@@ -95,25 +92,29 @@ const Home = () => {
   };
 
   const handleSave = () => {
-    let notification;
     try {
       save();
-      notification = {
+      new remote.Notification({
         title: 'Saved Successfully',
         body:
           'You will see your script and settings the next time you launch the application.',
-      };
+      }).show();
     } catch (e) {
-      notification = {
-        title: 'Failed to Save',
-        body: 'Something went wrong when trying to save your script!',
-      };
-    } finally {
-      new remote.Notification(notification).show();
+      remote.dialog.showErrorBox(
+        'Failed to Save',
+        'Something went wrong when trying to save your script!'
+      );
     }
   };
 
   const handleOpenTeleprompter = () => {
+    if (script === '') {
+      remote.dialog.showErrorBox(
+        'Please have a script!',
+        'You cannot begin with an empty script!'
+      );
+      return;
+    }
     save();
     ipcRenderer.send('show-subwindow-to-main', '');
     const window = remote.getCurrentWindow();
