@@ -21,7 +21,7 @@ const FontSelection: React.FC<FontSelectionProps> = (
   return (
     <>
       <h2 className="config-label" style={{ marginTop: 0 }}>
-        Font
+        Font Size
       </h2>
       <div className="config-font-selection">
         <TextFieldsIcon fontSize="small" />

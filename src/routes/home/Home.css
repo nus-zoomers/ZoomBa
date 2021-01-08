@@ -235,6 +235,7 @@
   font-size: 1.1rem;
   font-weight: bold;
   height: 2.5rem;
+  min-height: 2.5rem;
   margin-top: 1.5rem;
   border: 0;
   border-radius: 1.25rem;
