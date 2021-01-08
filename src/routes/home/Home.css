@@ -132,11 +132,12 @@
   font-weight: bold;
   padding: 0.2rem 0.4rem;
   z-index: 2;
+  border-radius: 0.5rem;
 }
 
 .config-theme-option .first-line.is-light {
   color: white;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .config-theme-option .first-line.is-dark {
@@ -149,6 +150,7 @@
   font-weight: bold;
   padding: 0.2rem 0.4rem;
   opacity: 0.3;
+  border-radius: 0.3rem;
 }
 
 .config-theme-option .second-line.is-light {

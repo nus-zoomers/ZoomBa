@@ -92,12 +92,14 @@ const createWindow = async () => {
 
   subWindow = new BrowserWindow({
     show: false,
-    width: 300,
-    height: 70,
+    minWidth: 700,
+    width: 700,
+    height: 150,
+    minHeight: 150,
     frame: false,
     transparent: true,
     hasShadow: false,
-    backgroundColor: '#40b2b2b2',
+    backgroundColor: '#05b2b2b2',
     icon: getAssetPath('icon.png'),
     webPreferences: {
       nodeIntegration: true,

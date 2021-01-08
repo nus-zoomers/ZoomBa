@@ -1,0 +1,140 @@
+.teleprompter {
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+  -webkit-app-region: drag;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.teleprompter .first-line {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 0.2rem 0.4rem;
+  z-index: 2;
+  border-radius: 0.5rem;
+}
+
+.teleprompter .second-line {
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 0.2rem 0.4rem;
+  opacity: 0.3;
+  border-radius: 0.3rem;
+  margin-top: -0.2rem;
+}
+
+.teleprompter.is-light .first-line {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.teleprompter.is-light .second-line {
+  color: white;
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.teleprompter.is-dark .first-line {
+  color: black;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.teleprompter.is-dark .second-line {
+  color: black;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* ============ */
+/* CLOSE BUTTON */
+/* ============ */
+
+.teleprompter > .teleprompter-close-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: none;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom-right-radius: 5px;
+  font-size: 1.2rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+  outline: none;
+}
+
+.teleprompter.is-light > .teleprompter-close-button {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.teleprompter.is-dark > .teleprompter-close-button {
+  color: black;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.teleprompter:hover > .teleprompter-close-button {
+  transition: opacity 0.2s;
+  opacity: 1;
+}
+
+.teleprompter > .teleprompter-close-button:hover {
+  cursor: pointer;
+}
+
+/* ============ */
+/* BUTTON GROUP */
+/* ============ */
+
+.teleprompter > .teleprompter-button-group {
+  position: absolute;
+  top: calc(50% - 46.5px);
+  right: 0;
+  border: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.teleprompter > .teleprompter-button-group > button {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  outline: none;
+  margin-bottom: 1px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+}
+
+.teleprompter.is-light > .teleprompter-button-group > button {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.teleprompter.is-dark > .teleprompter-button-group > button {
+  color: black;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.teleprompter:hover > .teleprompter-button-group {
+  transition: opacity 0.2s;
+  opacity: 1;
+}
+
+.teleprompter > .teleprompter-button-group > button:hover {
+  cursor: pointer;
+}
+
+.teleprompter .teleprompter-pause-play-button .fas {
+  font-size: 0.9rem;
+}

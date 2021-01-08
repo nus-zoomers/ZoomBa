@@ -6,6 +6,7 @@
 
 /* Individual CSS files */
 @import 'routes/home/Home.css';
+@import 'routes/teleprompter/Teleprompter.css';
 @import 'components/titleBar/TitleBar.css';
 
 html,
