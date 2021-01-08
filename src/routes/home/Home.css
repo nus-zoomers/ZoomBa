@@ -73,7 +73,7 @@
   cursor: pointer;
 }
 
-.config-display {
+.config-theme-selection {
   flex: 1;
   margin-top: 1.2rem;
   border-radius: 1.5rem;
@@ -81,7 +81,7 @@
   padding: 1rem;
 }
 
-.config-display > p {
+.config-theme-selection > p {
   font-size: 0.8rem;
   margin: 0.3rem 0;
 }

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import Script from './components/Script';
 import ConfigButtons from './components/ConfigButtons';
-import ConfigDisplay from './components/ConfigDisplay';
+import ThemeSelection from './components/ThemeSelection';
 import StartingPrompt from './components/StartingPrompt';
 
 const Home = () => {
@@ -33,7 +33,7 @@ const Home = () => {
       </div>
       <div className="config-container">
         <ConfigButtons handleFileChosen={handleFileChosen} />
-        <ConfigDisplay />
+        <ThemeSelection />
         <StartingPrompt />
         <button type="button" className="config-start-button">
           Start

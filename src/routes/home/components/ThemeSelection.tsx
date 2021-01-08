@@ -1,8 +1,8 @@
 import React from 'react';
 
-const ConfigDisplay = () => {
+const ThemeSelection = () => {
   return (
-    <div className="config-display">
+    <div className="config-theme-selection">
       <p>Font Size: XXX</p>
       <p>Font Color: XXX</p>
       <p>Other configs: XXX</p>
@@ -10,4 +10,4 @@ const ConfigDisplay = () => {
   );
 };
 
-export default ConfigDisplay;
+export default ThemeSelection;
