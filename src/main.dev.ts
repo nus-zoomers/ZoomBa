@@ -17,6 +17,7 @@ import log from 'electron-log';
 
 import { store } from './app/store';
 import MenuBuilder from './components/menu';
+import SpeechRecognitionStream from './speech_recognition/SpeechRecognitionStream';
 
 export default class AppUpdater {
   constructor() {
@@ -206,3 +207,18 @@ ipcMain.on('show-subwindow-to-main', () => {
 ipcMain.on('show-mainwindow-to-main', () => {
   webContents.fromId(mainWindowId).send('show-mainwindow-from-main', '');
 });
+
+// Speech recognition
+const speechRecognitionStream = SpeechRecognitionStream.getInstance();
+
+ipcMain.on('start-stream', () => speechRecognitionStream.start());
+
+// Attach reply listener only once.
+ipcMain.once('start-stream', (event) => {
+  const textStream = speechRecognitionStream.getTextStream();
+  textStream.on('data', (data) =>
+    event.reply('transcription', data.results[0].alternatives[0].transcript)
+  );
+});
+
+ipcMain.on('stop-stream', () => speechRecognitionStream.stop());
