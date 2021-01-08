@@ -92,6 +92,7 @@
   flex: 1;
   border-radius: 1.5rem;
   /* background-color: #282828; */
+  margin-bottom: 1.5rem;
 }
 
 .config-theme-selection > p {
@@ -115,6 +116,11 @@
 
 .config-theme-option-active > img {
   border: 3px solid #a03293;
+}
+
+.config-font-selection {
+  flex: 1;
+  margin: 0 3rem;
 }
 
 .config-label {
