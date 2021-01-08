@@ -223,12 +223,16 @@ const speechRecognitionStream = SpeechRecognitionStream.getInstance();
 
 ipcMain.on('start-stream', () => speechRecognitionStream.start());
 
-// Attach reply listener only once.
-ipcMain.once('start-stream', (event) => {
+const setUpTextStream = (event) => {
   const textStream = speechRecognitionStream.getTextStream();
-  textStream.on('data', (data) =>
-    event.reply('transcription', data.results[0].alternatives[0].transcript)
-  );
-});
+  textStream
+    .on('data', (data) => {
+      event.reply('transcription', data.results[0].alternatives[0].transcript);
+    })
+    .on('finish', () => setUpTextStream(event));
+};
+
+// Attach reply listener only once per stream.
+ipcMain.once('start-stream', (event) => setUpTextStream(event));
 
 ipcMain.on('stop-stream', () => speechRecognitionStream.stop());

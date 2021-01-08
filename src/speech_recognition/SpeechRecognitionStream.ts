@@ -1,8 +1,11 @@
 import { SpeechClient } from '@google-cloud/speech';
 import recorder from 'node-record-lpcm16';
+import { Writable } from 'stream';
 
 const speech = require('@google-cloud/speech');
 
+// Infinite streaming adapted from
+// https://github.com/googleapis/nodejs-speech/blob/master/samples/infiniteStreaming.js
 class SpeechRecognitionStream {
   private static instance: SpeechRecognitionStream;
 
@@ -11,6 +14,20 @@ class SpeechRecognitionStream {
   private recorder;
 
   private textStream;
+
+  private audioInput: string[] = [];
+
+  private lastAudioInput: string[] = [];
+
+  private resultEndTime = 0;
+
+  private isFinalEndTime = 0;
+
+  private finalRequestEndTime = 0;
+
+  private newStream = true;
+
+  private bridgingOffset = 0;
 
   // Configuration
   private static readonly request = {
@@ -29,21 +46,108 @@ class SpeechRecognitionStream {
     recorder: 'sox', // Recording utility
   };
 
+  // Actual timeout is 5 minutes, but we add a 10s buffer.
+  private static readonly timeout: number = 290000;
+
   private constructor() {
     // Set up a connection to the Google Cloud platform using the key file.
     this.client = new speech.SpeechClient({
       keyFile: 'credentials/key.json',
     });
     // Set up an audio recognition stream.
-    this.textStream = this.client.streamingRecognize(
-      SpeechRecognitionStream.request
-    );
+    this.startStream();
     // Set up recorder.
     this.recorder = recorder.record(SpeechRecognitionStream.recorderOptions);
     // Pipe recorded audio into the audio recognition stream.
-    this.recorder.stream().pipe(this.textStream);
+    this.recorder.stream().pipe(this.audioInputStreamTransform());
     // Do not record audio until manually started.
     this.recorder.pause();
+  }
+
+  private startStream() {
+    // Clear current audio input.
+    this.audioInput = [];
+    this.textStream = this.client
+      .streamingRecognize(SpeechRecognitionStream.request)
+      .on('error', (err) => {
+        // Long duration between audio being sent.
+        if (err.code === 11) {
+          // Not sure if this works.
+          // this.restartStream();
+        } else {
+          console.error(err);
+        }
+      })
+      .on('data', this.speechCallback);
+
+    // Restart stream before stream times out.
+    setTimeout(() => this.restartStream(), SpeechRecognitionStream.timeout);
+  }
+
+  private speechCallback(stream) {
+    this.resultEndTime =
+      stream.results[0].resultEndTime.seconds * 1000 +
+      Math.round(stream.results[0].resultEndTime.nanos / 1000000);
+
+    if (stream.results[0].isFinal) {
+      this.isFinalEndTime = this.resultEndTime;
+    }
+  }
+
+  // TODO: Fix this thing accessing stale values.
+  private audioInputStreamTransform() {
+    return new Writable({
+      write: (chunk, encoding, next) => {
+        if (this.newStream && this.lastAudioInput.length !== 0) {
+          const chunkTime =
+            SpeechRecognitionStream.timeout / this.lastAudioInput.length;
+          if (chunkTime !== 0) {
+            if (this.bridgingOffset < 0) {
+              this.bridgingOffset = 0;
+            }
+            if (this.bridgingOffset > this.finalRequestEndTime) {
+              this.bridgingOffset = this.finalRequestEndTime;
+            }
+            const chunksFromMS = Math.floor(
+              (this.finalRequestEndTime - this.bridgingOffset) / chunkTime
+            );
+            this.bridgingOffset = Math.floor(
+              (this.lastAudioInput.length - chunksFromMS) * chunkTime
+            );
+            for (let i = chunksFromMS; i < this.lastAudioInput.length; i += 1) {
+              this.textStream.write(this.lastAudioInput[i]);
+            }
+          }
+          this.newStream = false;
+        }
+        this.audioInput.push(chunk);
+        if (this.textStream) {
+          this.textStream.write(chunk);
+        }
+        next();
+      },
+      final: () => {
+        if (this.textStream) {
+          this.textStream.end();
+        }
+      },
+    });
+  }
+
+  private restartStream() {
+    if (this.textStream) {
+      this.textStream.end();
+      this.textStream.removeListener('data', this.speechCallback);
+      this.textStream = null;
+    }
+    if (this.resultEndTime > 0) {
+      this.finalRequestEndTime = this.isFinalEndTime;
+    }
+    this.resultEndTime = 0;
+    this.lastAudioInput = [];
+    this.lastAudioInput = this.audioInput;
+    this.newStream = true;
+    this.startStream();
   }
 
   /**
