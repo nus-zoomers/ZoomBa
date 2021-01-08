@@ -91,13 +91,30 @@
 .config-theme-selection {
   flex: 1;
   border-radius: 1.5rem;
-  background-color: #282828;
-  padding: 1rem;
+  /* background-color: #282828; */
 }
 
 .config-theme-selection > p {
   font-size: 0.8rem;
   margin: 0.3rem 0;
+}
+
+.config-theme-selection img {
+  max-width: 35vw;
+  border-radius: 1rem;
+  border: 3px solid transparent;
+}
+
+.config-theme-option,
+.config-theme-option-active {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0.5rem;
+}
+
+.config-theme-option-active > img {
+  border: 3px solid #a03293;
 }
 
 .config-label {
