@@ -179,6 +179,7 @@ const createWindow = async () => {
     shell.openExternal(url);
   });
 
+  // force subWindow devtools to close. disable this if devtools is needed
   subWindow.webContents.on('devtools-opened', () => {
     if (subWindow) {
       subWindow.webContents.closeDevTools();
@@ -209,6 +210,8 @@ app.on('activate', () => {
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
 });
+
+// double window IPC
 
 ipcMain.on('show-subwindow-to-main', () => {
   webContents.fromId(subWindowId).send('show-subwindow-from-main', '');
