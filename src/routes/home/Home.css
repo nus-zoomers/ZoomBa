@@ -117,7 +117,10 @@
 
 .config-font-selection {
   flex: 1;
-  margin: 0 3rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  max-width: 30vw;
 }
 
 .config-label {
