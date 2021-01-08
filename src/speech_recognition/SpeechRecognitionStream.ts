@@ -1,6 +1,8 @@
 import { SpeechClient } from '@google-cloud/speech';
 import recorder from 'node-record-lpcm16';
 
+const speech = require('@google-cloud/speech');
+
 class SpeechRecognitionStream {
   private static instance: SpeechRecognitionStream;
 
@@ -28,7 +30,6 @@ class SpeechRecognitionStream {
   };
 
   private constructor() {
-    const speech = require('@google-cloud/speech');
     // Set up a connection to the Google Cloud platform using the key file.
     this.client = new speech.SpeechClient({
       keyFile: 'credentials/key.json',
