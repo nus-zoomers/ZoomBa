@@ -67,6 +67,6 @@ export const store = new Store({
     // 1024x728 is the default size of our window
     windowBounds: { width: 1024, height: 728 },
     script: { content: '', name: '', prompt: '' },
-    config: { theme: 'LIGHT', fontSize: 28 },
+    config: { theme: 'LIGHT', fontSize: 28, autoscroll: true, speed: 3.0 },
   },
 });
