@@ -23,6 +23,10 @@
   max-height: calc(100% - 2rem);
 }
 
+#script-upload {
+  display: none;
+}
+
 /* ============= */
 /* CONFIG STYLES */
 /* ============= */
