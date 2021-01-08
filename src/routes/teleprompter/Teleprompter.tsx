@@ -1,11 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { remote } from 'electron';
 import { Theme } from '../home/components/ThemeSelection';
+
+import { store } from '../../app/store';
 
 const { ipcRenderer } = window.require('electron');
 
 const Teleprompter = () => {
-  React.useEffect(() => {
+  interface TeleprompterState {
+    content: string[];
+    name: string;
+    prompt: string;
+    theme: Theme;
+    fontSize: number;
+    autoscroll: boolean;
+    speed: number;
+  }
+
+  const [state, setState] = useReducer(
+    (s: TeleprompterState, a: Partial<TeleprompterState>) => ({ ...s, ...a }),
+    {
+      content: [],
+      name: '',
+      prompt: '',
+      theme: Theme.LIGHT,
+      fontSize: 24,
+      autoscroll: true,
+      speed: 3.0,
+    }
+  );
+
+  useEffect(() => {
+    // content not updated when store is updated
+    const { content, name, prompt } = store.get('script');
+    const { theme, fontSize, autoscroll, speed } = store.get('config');
+
+    setState({
+      content: content.replace(/^\s*[\r\n]/gm, '').split('\n'),
+      name,
+      prompt,
+      theme,
+      fontSize,
+      autoscroll,
+      speed,
+    });
+  }, []);
+
+  const [lineNumber, setLineNumber] = useState<number>(-1);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
+  useEffect(() => {
     ipcRenderer.on('show-subwindow-from-main', () => {
       const window = remote.getCurrentWindow();
       window.show();
@@ -18,6 +62,26 @@ const Teleprompter = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (!state.autoscroll && isPlaying) {
+      const interval = setInterval(() => {
+        if (lineNumber < state.content.length) {
+          setLineNumber(lineNumber + 1);
+        } else {
+          setIsPlaying(false);
+        }
+      }, state.speed * 1000);
+      return () => clearInterval(interval);
+    }
+    return () => null;
+  }, [
+    isPlaying,
+    lineNumber,
+    state.autoscroll,
+    state.content.length,
+    state.speed,
+  ]);
+
   const handleTeleprompterExit = () => {
     ipcRenderer.send('show-mainwindow-to-main', '');
     const window = remote.getCurrentWindow();
@@ -27,27 +91,33 @@ const Teleprompter = () => {
   };
 
   const handleTeleprompterBack = () => {
-    // TODO: Implement back
+    setLineNumber(lineNumber - 1);
   };
 
   const handleTeleprompterPausePlay = () => {
-    // TODO: Implement pause
+    setIsPlaying(!isPlaying);
   };
 
   const handleTeleprompterForward = () => {
-    // TODO: Implement forward
+    setLineNumber(lineNumber + 1);
   };
 
-  // Placeholder variables for styling, please
-  // replace with actual values once available
-  const theme = Theme.LIGHT;
+  const isLight = state.theme === Theme.LIGHT;
 
-  const isLight = theme === Theme.LIGHT;
-
-  const isPlaying = true;
-
-  const fontSize = 32;
+  const { fontSize } = state;
   const secondLineFontSize = fontSize * 0.6;
+
+  const firstLine = (() => {
+    if (state.content[lineNumber]) return state.content[lineNumber];
+    if (lineNumber === state.content.length) return '[END]';
+    return `"${state.name}"`;
+  })();
+
+  const secondLine = (() => {
+    if (state.content[lineNumber + 1]) return state.content[lineNumber + 1];
+    if (lineNumber === state.content.length - 1) return '[END]';
+    return 'Congrats on finishing your presentation :>';
+  })();
 
   return (
     <div className={`teleprompter${isLight ? ' is-light' : ' is-dark'}`}>
@@ -59,16 +129,17 @@ const Teleprompter = () => {
         <i className="fas fa-times" />
       </button>
       <span className="first-line" style={{ fontSize }}>
-        This is the first line.
+        {firstLine}
       </span>
       <span className="second-line" style={{ fontSize: secondLineFontSize }}>
-        This is the second line.
+        {secondLine}
       </span>
       <div className="teleprompter-button-group">
         <button
           type="button"
           className="teleprompter-back-button"
           onClick={handleTeleprompterBack}
+          disabled={lineNumber < 0}
         >
           <i className="fas fa-arrow-up" />
         </button>
@@ -87,6 +158,7 @@ const Teleprompter = () => {
           type="button"
           className="teleprompter-foward-button"
           onClick={handleTeleprompterForward}
+          disabled={lineNumber > state.content.length - 1}
         >
           <i className="fas fa-arrow-down" />
         </button>
