@@ -223,7 +223,8 @@ const speechRecognitionStream = SpeechRecognitionStream.getInstance();
 
 ipcMain.on('start-stream', () => speechRecognitionStream.start());
 
-const setUpTextStream = (event) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const setUpTextStream = (event: any) => {
   const textStream = speechRecognitionStream.getTextStream();
   textStream
     .on('data', (data) => {
