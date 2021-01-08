@@ -69,11 +69,10 @@ const createWindow = async () => {
     ? path.join(process.resourcesPath, 'resources')
     : path.join(__dirname, '../resources');
 
-  const getAssetPath = (...paths: string[]): string => {
-    return path.join(RESOURCES_PATH, ...paths);
-  };
+  const getAssetPath = (...paths: string[]): string =>
+    path.join(RESOURCES_PATH, ...paths);
 
-  const { width, height } = store.get('windowBounds');
+  const { width, height } = store.get('windowBoundss');
 
   mainWindow = new BrowserWindow({
     show: false,

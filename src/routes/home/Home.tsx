@@ -6,7 +6,8 @@ import { store } from '../../app/store';
 
 import Script from './components/Script';
 import ScriptButtons from './components/ScriptButtons';
-import ThemeSelection from './components/ThemeSelection';
+import ThemeSelection, { Theme } from './components/ThemeSelection';
+import FontSelection from './components/FontSelection';
 import StartingPrompt from './components/StartingPrompt';
 
 const { ipcRenderer } = window.require('electron');
@@ -17,12 +18,18 @@ const Home = () => {
   const [script, setScript] = useState<string>('');
   const [scriptName, setScriptName] = useState<string>('');
   const [startPrompt, setStartPrompt] = useState<string>('');
+  const [theme, setTheme] = useState<Theme>(Theme.LIGHT);
+  const [fontSize, setFontSize] = useState<number>(28);
 
   useEffect(() => {
     const { content, name, prompt } = store.get('script');
     setScript(content);
     setScriptName(name);
     setStartPrompt(prompt);
+    const config = store.get('config');
+    setTheme(config.theme);
+    setFontSize(config.fontSize);
+
     ipcRenderer.on('show-mainwindow-from-main', () => {
       const window = remote.getCurrentWindow();
       window.show();
@@ -73,10 +80,14 @@ const Home = () => {
         name: scriptName,
         prompt: startPrompt,
       });
+      store.set('config', {
+        theme,
+        fontSize,
+      });
       notification = {
         title: 'Saved Successfully',
         body:
-          'You will see your script the next time you launch the application.',
+          'You will see your script and settings the next time you launch the application.',
       };
     } catch (e) {
       notification = {
@@ -106,7 +117,8 @@ const Home = () => {
         <Script script={script} handleScriptChange={setScript} />
       </div>
       <div className="config-container">
-        <ThemeSelection />
+        <ThemeSelection theme={theme} setTheme={setTheme} fontSize={fontSize} />
+        <FontSelection fontSize={fontSize} setFontSize={setFontSize} />
         <StartingPrompt
           startPrompt={startPrompt}
           setStartPrompt={setStartPrompt}

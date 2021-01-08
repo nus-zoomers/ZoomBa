@@ -91,13 +91,76 @@
 .config-theme-selection {
   flex: 1;
   border-radius: 1.5rem;
-  background-color: #282828;
-  padding: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background: none;
 }
 
-.config-theme-selection > p {
-  font-size: 0.8rem;
-  margin: 0.3rem 0;
+.config-theme-option {
+  background: url('../../assets/images/pink-bg.jpeg') no-repeat center;
+  min-width: 100%;
+  outline: none;
+  flex: 1;
+  border-radius: 1rem;
+  border: 3px solid transparent;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.config-theme-option:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.config-theme-option.is-selected {
+  border: 3px solid #a03293;
+}
+
+.config-theme-option .first-line {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 0.2rem 0.4rem;
+  z-index: 2;
+}
+
+.config-theme-option .first-line.is-light {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.config-theme-option .first-line.is-dark {
+  color: black;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.config-theme-option .second-line {
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 0.2rem 0.4rem;
+  opacity: 0.3;
+}
+
+.config-theme-option .second-line.is-light {
+  color: white;
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.config-theme-option .second-line.is-dark {
+  color: black;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.config-font-selection {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  width: 100%;
+}
+
+.config-font-slider {
+  width: 100%;
 }
 
 .config-label {
