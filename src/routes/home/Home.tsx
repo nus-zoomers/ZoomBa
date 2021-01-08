@@ -18,6 +18,8 @@ const Home = () => {
   const [startPrompt, setStartPrompt] = useState<string>('');
   const [theme, setTheme] = useState<Theme>(Theme.LIGHT);
   const [fontSize, setFontSize] = useState<number>(28);
+  const [isAutoScrolling, setIsAutoScrolling] = useState<boolean>(true);
+  const [speed, setSpeed] = useState<number>(3.0);
 
   useEffect(() => {
     const { content, name, prompt } = store.get('script');
@@ -27,6 +29,8 @@ const Home = () => {
     const config = store.get('config');
     setTheme(config.theme);
     setFontSize(config.fontSize);
+    setIsAutoScrolling(config.autoscroll);
+    setSpeed(config.speed);
   }, []);
 
   const handleFileRead = () => {
@@ -65,18 +69,24 @@ const Home = () => {
     }
   };
 
+  const save = () => {
+    store.set('script', {
+      content: script,
+      name: scriptName,
+      prompt: startPrompt,
+    });
+    store.set('config', {
+      theme,
+      fontSize,
+      autoscroll: isAutoScrolling,
+      speed,
+    });
+  };
+
   const handleSave = () => {
     let notification;
     try {
-      store.set('script', {
-        content: script,
-        name: scriptName,
-        prompt: startPrompt,
-      });
-      store.set('config', {
-        theme,
-        fontSize,
-      });
+      save();
       notification = {
         title: 'Saved Successfully',
         body:
@@ -109,6 +119,10 @@ const Home = () => {
         <ScrollingSettings
           startPrompt={startPrompt}
           setStartPrompt={setStartPrompt}
+          isAutoScrolling={isAutoScrolling}
+          setIsAutoScrolling={setIsAutoScrolling}
+          speed={speed}
+          setSpeed={setSpeed}
         />
         <button type="button" className="config-start-button">
           Start

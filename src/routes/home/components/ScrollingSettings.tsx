@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Switch } from '@material-ui/core';
 import ScrollSpeedSelection from './ScrollSpeedSelection';
 import StartingPrompt from './StartingPrompt';
@@ -6,17 +6,23 @@ import StartingPrompt from './StartingPrompt';
 interface ScrollingSettingsProps {
   startPrompt: string;
   setStartPrompt: (name: string) => void;
+  isAutoScrolling: boolean;
+  setIsAutoScrolling: (isAutoScrolling: boolean) => void;
+  speed: number;
+  setSpeed: (speed: number) => void;
 }
 
 const ScrollingSettings: React.FC<ScrollingSettingsProps> = (
   props: ScrollingSettingsProps
 ) => {
-  const { startPrompt, setStartPrompt } = props;
-  const [isAutoScrolling, setIsAutoScrolling] = useState<boolean>(true);
-
-  const handleCheckBox = (checked: boolean) => {
-    setIsAutoScrolling(checked);
-  };
+  const {
+    startPrompt,
+    setStartPrompt,
+    isAutoScrolling,
+    setIsAutoScrolling,
+    speed,
+    setSpeed,
+  } = props;
 
   return (
     <div className="scrolling-settings">
@@ -26,7 +32,7 @@ const ScrollingSettings: React.FC<ScrollingSettingsProps> = (
           className="scrolling-settings-switch"
           checked={isAutoScrolling}
           onChange={(e: { target: { checked: boolean } }) =>
-            handleCheckBox(e.target.checked)
+            setIsAutoScrolling(e.target.checked)
           }
           name="auto scrolling"
           color="primary"
@@ -43,7 +49,7 @@ const ScrollingSettings: React.FC<ScrollingSettingsProps> = (
           setStartPrompt={setStartPrompt}
         />
       ) : (
-        <ScrollSpeedSelection />
+        <ScrollSpeedSelection speed={speed} setSpeed={setSpeed} />
       )}
     </div>
   );

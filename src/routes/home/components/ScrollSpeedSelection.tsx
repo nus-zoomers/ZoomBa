@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Slider from '@material-ui/core/Slider';
 
-const ScrollSpeedSelection = () => {
-  const [speed, setSpeed] = useState(1.5);
+interface SpeedSelectionProps {
+  speed: number;
+  setSpeed: (speed: number) => void;
+}
+
+const ScrollSpeedSelection: React.FC<SpeedSelectionProps> = (
+  props: SpeedSelectionProps
+) => {
+  const { speed, setSpeed } = props;
 
   const handleSpeedChange = (
     _: React.ChangeEvent<unknown>,
@@ -18,7 +25,6 @@ const ScrollSpeedSelection = () => {
         Fast
         <Slider
           className="config-speed-slider"
-          defaultValue={1.5}
           value={speed}
           aria-labelledby="continuous-slider"
           valueLabelDisplay="auto"
