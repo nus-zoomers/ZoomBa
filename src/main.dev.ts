@@ -72,7 +72,7 @@ const createWindow = async () => {
   const getAssetPath = (...paths: string[]): string =>
     path.join(RESOURCES_PATH, ...paths);
 
-  const { width, height } = store.get('windowBoundss');
+  const { width, height } = store.get('windowBounds');
 
   mainWindow = new BrowserWindow({
     show: false,
@@ -95,7 +95,6 @@ const createWindow = async () => {
     height: 70,
     frame: false,
     transparent: true,
-    // type: 'toolbar',
     hasShadow: false,
     backgroundColor: '#40b2b2b2',
     icon: getAssetPath('icon.png'),
@@ -107,11 +106,7 @@ const createWindow = async () => {
 
   subWindowId = subWindow.id;
 
-  // app.dock.show();
   subWindow.loadURL(`file://${__dirname}/index.html?sub`);
-  // subWindow.setAlwaysOnTop(true, "screen-saver");
-  // subWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
-  // subWindow.setFullScreenable(false);
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
