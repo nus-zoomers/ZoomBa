@@ -32,10 +32,29 @@ const Home = () => {
 
   const handleUpload = (file: File | null) => {
     if (!file) return;
-    fileReader = new FileReader();
-    fileReader.onloadend = handleFileRead;
-    fileReader.readAsText(file);
-    setScriptName(file.name);
+    const originalScript = script;
+    const originalScriptName = scriptName;
+    let notification;
+
+    try {
+      fileReader = new FileReader();
+      fileReader.onloadend = handleFileRead;
+      fileReader.readAsText(file);
+      setScriptName(file.name);
+      notification = {
+        title: 'Loaded Successfully',
+        body: 'Your script file has been loaded.',
+      };
+    } catch (e) {
+      setScript(originalScript);
+      setScriptName(originalScriptName);
+      notification = {
+        title: 'Failed to Load Script',
+        body: 'Something went wrong when trying to load your script!',
+      };
+    } finally {
+      new remote.Notification(notification).show();
+    }
   };
 
   const handleSave = () => {
