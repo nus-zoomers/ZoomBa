@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-enum Theme {
-  LIGHT,
-  DARK,
+export enum Theme {
+  LIGHT = 'LIGHT',
+  DARK = 'DARK',
 }
 
-const ThemeSelection = () => {
-  const [theme, setTheme] = useState<Theme>(Theme.LIGHT);
+interface ThemeSelectionProps {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+  fontSize: number;
+}
 
-  const handleSelectTheme = (newTheme: Theme) => {
-    setTheme(newTheme);
-  };
+const ThemeSelection: React.FC<ThemeSelectionProps> = (
+  props: ThemeSelectionProps
+) => {
+  const { theme, setTheme, fontSize } = props;
+  const secondLineFontSize = fontSize * 0.6;
 
   return (
     <>
@@ -23,18 +28,36 @@ const ThemeSelection = () => {
           className={`config-theme-option${
             theme === Theme.LIGHT ? ' is-selected' : ''
           }`}
-          onClick={() => handleSelectTheme(Theme.LIGHT)}
+          onClick={() => setTheme(Theme.LIGHT)}
         >
-          Hello
+          <span className="first-line is-light" style={{ fontSize }}>
+            This is the first line
+          </span>
+          <br />
+          <span
+            className="second-line is-light"
+            style={{ fontSize: secondLineFontSize }}
+          >
+            This is the second line
+          </span>
         </button>
         <button
           type="button"
           className={`config-theme-option${
             theme === Theme.DARK ? ' is-selected' : ''
           }`}
-          onClick={() => handleSelectTheme(Theme.DARK)}
+          onClick={() => setTheme(Theme.DARK)}
         >
-          Goodbye
+          <span className="first-line is-dark" style={{ fontSize }}>
+            This is the first line
+          </span>
+          <br />
+          <span
+            className="second-line is-dark"
+            style={{ fontSize: secondLineFontSize }}
+          >
+            This is the second line
+          </span>
         </button>
       </div>
     </>
