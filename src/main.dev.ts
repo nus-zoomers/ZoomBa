@@ -214,7 +214,6 @@ app.on('activate', () => {
 // double window IPC
 
 ipcMain.on('show-subwindow-to-main', () => {
-  console.log('show-subwindow-to-main');
   webContents.fromId(subWindowId).send('show-subwindow-from-main', '');
 });
 

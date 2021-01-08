@@ -39,6 +39,7 @@ class Store {
 
   // This will just return the property on the `data` object
   get(key: string | number) {
+    this.data = parseDataFile(this.path, this.defaults);
     return this.data[key] ?? this.defaults[key];
   }
 

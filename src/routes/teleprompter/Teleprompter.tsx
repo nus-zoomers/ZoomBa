@@ -49,7 +49,8 @@ const Teleprompter = () => {
         autoscroll,
         speed,
       });
-
+      setLineNumber(-1);
+      setIsPlaying(false);
       setForceUpdate(false);
     }
   }, [forceUpdate]);
