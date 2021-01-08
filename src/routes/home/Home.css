@@ -91,31 +91,28 @@
 .config-theme-selection {
   flex: 1;
   border-radius: 1.5rem;
-  /* background-color: #282828; */
   margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background: none;
 }
 
-.config-theme-selection > p {
-  font-size: 0.8rem;
-  margin: 0.3rem 0;
-}
-
-.config-theme-selection img {
-  max-width: 35vw;
-  border-radius: 1rem;
-  border: 3px solid transparent;
-}
-
-.config-theme-option,
-.config-theme-option-active {
-  background: transparent;
+.config-theme-option {
+  background: url('../../assets/images/pink-bg.jpeg') no-repeat center;
+  min-width: 100%;
   border: none;
   outline: none;
-  padding: 0.5rem;
+  flex: 1;
+  border-radius: 1rem;
 }
 
-.config-theme-option-active > img {
-  border: 3px solid #a03293;
+.config-theme-option:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.config-theme-option.is-selected {
+  border: 1px solid #a03293;
 }
 
 .config-font-selection {

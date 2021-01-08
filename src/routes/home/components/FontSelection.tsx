@@ -1,11 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import Slider from '@material-ui/core/Slider';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
 
 const FontSelection = () => {
   const [value, setValue] = React.useState(30);
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleChange = (
+    _: React.ChangeEvent<unknown>,
+    newValue: number | number[]
+  ) => {
+    setValue(newValue as number);
   };
 
   return (

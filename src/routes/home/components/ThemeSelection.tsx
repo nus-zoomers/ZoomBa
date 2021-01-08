@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import lightThemeImage from '../assets/theme_light.png';
-import darkThemeImage from '../assets/theme_dark.png';
+
+enum Theme {
+  LIGHT,
+  DARK,
+}
 
 const ThemeSelection = () => {
-  const [theme, setTheme] = useState('Light');
+  const [theme, setTheme] = useState<Theme>(Theme.LIGHT);
 
-  const handleSelectTheme = (newTheme: string) => {
+  const handleSelectTheme = (newTheme: Theme) => {
     setTheme(newTheme);
   };
 
@@ -17,25 +20,21 @@ const ThemeSelection = () => {
       <div className="config-theme-selection">
         <button
           type="button"
-          className={
-            theme === 'Light'
-              ? 'config-theme-option-active'
-              : 'config-theme-option'
-          }
-          onClick={() => handleSelectTheme('Light')}
+          className={`config-theme-option${
+            theme === Theme.LIGHT ? ' is-selected' : ''
+          }`}
+          onClick={() => handleSelectTheme(Theme.LIGHT)}
         >
-          <img src={lightThemeImage} alt="light theme" />
+          Hello
         </button>
         <button
           type="button"
-          className={
-            theme === 'Dark'
-              ? 'config-theme-option-active'
-              : 'config-theme-option'
-          }
-          onClick={() => handleSelectTheme('Dark')}
+          className={`config-theme-option${
+            theme === Theme.DARK ? ' is-selected' : ''
+          }`}
+          onClick={() => handleSelectTheme(Theme.DARK)}
         >
-          <img src={darkThemeImage} alt="dark theme" />
+          Goodbye
         </button>
       </div>
     </>
