@@ -1,20 +1,52 @@
-import React from 'react';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useState } from 'react';
 
 const Home = () => {
+  let fileReader: FileReader;
+
+  const [script, setScript] = useState('Please enter your script here.');
+
+  const handleTextChange = (e) => {
+    setScript(e.value);
+  };
+
+  const handleFileRead = () => {
+    const content = fileReader.result;
+    setScript(content);
+  };
+
+  const handleFileChosen = (file: Blob) => {
+    fileReader = new FileReader();
+    fileReader.onloadend = handleFileRead;
+    fileReader.readAsText(file);
+  };
+
   return (
     <main id="main">
       <div className="script-container">
         <textarea
           className="script-textarea"
-          placeholder="Paste your script here or import a file!"
-          aria-placeholder="Paste your script here or import a file!"
+          placeholder={script}
+          aria-placeholder={script}
+          rows={30}
+          cols={50}
+          value={script}
+          onChange={(e) => handleTextChange(e)}
         />
       </div>
       <div className="config-container">
         <div className="config-button-container">
           <div className="config-button">
+            <input
+              type="file"
+              id="script-upload"
+              accept="text/*"
+              onChange={(e) => handleFileChosen(e.target.files[0])}
+            />
             <button type="button" className="config-button-icon">
-              Icon
+              <label htmlFor="script-upload" id="script-upload-label">
+                Icon
+              </label>
             </button>
             Import
           </div>
