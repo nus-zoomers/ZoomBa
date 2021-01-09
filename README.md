@@ -12,7 +12,7 @@ That’s why ZoomBa is here. With ZoomBa, you no longer have to manage a script 
 
 ZoomBa is here to help you succeed at Zoom presentations. ZoomBa helps to display your script as captions over your Zoom call. Experience the freedom of having the script follow you, as our voice recognition algorithms move your script along at the right pace. You can also manually configure the duration of the lines, allowing you to pace yourself better in your presentations.
 
-## How We built it
+## How we built it
 
 Built using Electron, ZoomBa is a beautiful cross-platform application with a seamless user experience. It also utilises Google Cloud's Speech API to enable your script to follow you, and not the other way around.
 
