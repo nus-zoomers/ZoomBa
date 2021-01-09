@@ -119,7 +119,7 @@ const Teleprompter = () => {
       const currentWords = state.content[currIndex].split(' ');
       const startIndex = currWordIndex;
       const wordsLength = currentWords.length;
-      if (startIndex >= wordsLength - 4) {
+      if (startIndex >= wordsLength - 3) {
         setNewWordIndex(0);
         if (currIndex < state.content.length - 1) {
           setNewIndex(currIndex + 1);
@@ -129,7 +129,7 @@ const Teleprompter = () => {
       let highestFound = -1;
 
       for (
-        let i = startIndex, j = Math.min(startIndex + 5, wordsLength);
+        let i = startIndex, j = Math.min(startIndex + 4, wordsLength);
         i < j;
         i += 1
       ) {
@@ -140,7 +140,7 @@ const Teleprompter = () => {
 
       currIndex = indexRef.current;
 
-      if (highestFound > 0 && highestFound >= wordsLength - 4) {
+      if (highestFound > 0 && highestFound >= wordsLength - 3) {
         setNewWordIndex(0);
         if (currIndex < state.content.length - 1) {
           setNewIndex(currIndex + 1);

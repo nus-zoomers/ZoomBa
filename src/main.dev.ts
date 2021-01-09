@@ -229,9 +229,13 @@ ipcMain.on('start-stream', () => speechRecognitionStream.start());
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const setUpTextStream = (event: any) => {
   const textStream = speechRecognitionStream.getTextStream();
+  let previousString = '';
   textStream
     .on('data', (data) => {
-      event.reply('transcription', data.results[0].alternatives[0].transcript);
+      const str: string = data.results[0].alternatives[0].transcript;
+      event.reply('transcription', str.replace(previousString, ''));
+      // Add a space to only diff by words.
+      previousString = `${str} `;
     })
     .on('finish', () => setUpTextStream(event));
 };
