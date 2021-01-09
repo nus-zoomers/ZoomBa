@@ -44,8 +44,15 @@ const Teleprompter = () => {
       const { content, name, prompt } = store.get('script');
       const { theme, fontSize, autoscroll, speed } = store.get('config');
 
+      let fullContent;
+      if (autoscroll) {
+        fullContent = `${prompt}\n${content}`;
+      } else {
+        fullContent = content;
+      }
+
       setState({
-        content: content.replace(/^\s*[\r\n]/gm, '').split('\n'),
+        content: fullContent.replace(/^\s*[\r\n]/gm, '').split('\n'),
         name,
         prompt,
         theme,
