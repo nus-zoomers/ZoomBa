@@ -234,7 +234,8 @@ const setUpTextStream = (event: any) => {
     .on('data', (data) => {
       const str: string = data.results[0].alternatives[0].transcript;
       event.reply('transcription', str.replace(previousString, ''));
-      previousString = str;
+      // Add a space to only diff by words.
+      previousString = `${str} `;
     })
     .on('finish', () => setUpTextStream(event));
 };
