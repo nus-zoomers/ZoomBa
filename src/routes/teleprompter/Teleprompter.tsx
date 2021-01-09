@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useReducer, useRef, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useReducer,
+  useRef,
+  useCallback,
+} from 'react';
 import { remote } from 'electron';
 import { Theme } from '../home/components/ThemeSelection';
 
@@ -34,17 +40,17 @@ const Teleprompter = () => {
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [forceUpdate, setForceUpdate] = useState<boolean>(false);
-  const [index, _setIndex] = useState<number>(0);
+  const [index, setIndex] = useState<number>(0);
   const indexRef = useRef(index);
-  const setIndex = (value: number) => {
+  const setNewIndex = (value: number) => {
     indexRef.current = value;
-    _setIndex(value);
+    setIndex(value);
   };
-  const [wordIndex, _setWordIndex] = useState<number>(0);
+  const [wordIndex, setWordIndex] = useState<number>(0);
   const wordIndexRef = useRef(wordIndex);
-  const setWordIndex = (value: number) => {
+  const setNewWordIndex = (value: number) => {
     wordIndexRef.current = value;
-    _setWordIndex(value);
+    setWordIndex(value);
   };
   const [hasListener, setHasListener] = useState<boolean>(false);
 
@@ -108,15 +114,15 @@ const Teleprompter = () => {
   const streamCallback = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (_: any, data: string) => {
-      let index = indexRef.current;
-      let wordIndex = wordIndexRef.current;
-      const currentWords = state.content[index].split(' ');
-      const startIndex = wordIndex;
+      let currIndex = indexRef.current;
+      const currWordIndex = wordIndexRef.current;
+      const currentWords = state.content[currIndex].split(' ');
+      const startIndex = currWordIndex;
       const wordsLength = currentWords.length;
       if (startIndex >= wordsLength - 4) {
-        setWordIndex(0);
-        if (index < state.content.length - 1) {
-          setIndex(index + 1);
+        setNewWordIndex(0);
+        if (currIndex < state.content.length - 1) {
+          setNewIndex(currIndex + 1);
         }
       }
 
@@ -132,18 +138,18 @@ const Teleprompter = () => {
         }
       }
 
-      index = indexRef.current;
+      currIndex = indexRef.current;
 
       if (highestFound > 0 && highestFound >= wordsLength - 4) {
-        setWordIndex(0);
-        if (index < state.content.length - 1) {
-          setIndex(index + 1);
+        setNewWordIndex(0);
+        if (currIndex < state.content.length - 1) {
+          setNewIndex(currIndex + 1);
         }
       } else if (highestFound > 0) {
-        setWordIndex(highestFound);
+        setNewWordIndex(highestFound);
       }
     },
-    [index, state.content, wordIndex]
+    [state.content]
   );
 
   useEffect(() => {
