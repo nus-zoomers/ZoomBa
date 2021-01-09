@@ -35,6 +35,11 @@ class SpeechRecognitionStream {
       encoding: 'LINEAR16',
       sampleRateHertz: 16000,
       languageCode: 'en-SG',
+      speechContexts: [
+        {
+          phrases: ['Zoomba', 'ES2660'],
+        },
+      ],
     },
     interimResults: true,
   };
