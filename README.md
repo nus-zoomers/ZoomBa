@@ -1,8 +1,14 @@
 # ZoomBa
 
-<p align="center"><img width="80%" src=".erb/img/main.png" ></img></p>
+<p align="center"><img width="65%" src=".erb/img/main.png" ></img></p>
 
-<p align="center"><img width="80%" src=".erb/img/caption.jpg" ></img></p>
+## Sample Screens
+
+<p align="center"><img width="45%" src=".erb/img/sample1.png" ></img>&nbsp;&nbsp;<img width="45%" src=".erb/img/sample2.png" ></img></p>
+
+## Auto Scrolling Demo
+
+<p align="center"><a href="https://youtu.be/kzDJaXEPeIY"><img width="65%" alt="Auto Scrolling Demo" src="https://img.youtube.com/vi/kzDJaXEPeIY/maxresdefault.jpg"></img></a></p>
 
 ## Inspiration
 
