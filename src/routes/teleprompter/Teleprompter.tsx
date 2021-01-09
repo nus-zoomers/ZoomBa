@@ -172,6 +172,10 @@ const Teleprompter = () => {
 
     // cannot use window.close() due to same reason as above
     window.hide();
+
+    // Reset indexes.
+    setNewIndex(0);
+    setNewWordIndex(0);
   };
 
   const handleTeleprompterBack = () => {
