@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer, useCallback } from 'react';
+import React, { useState, useEffect, useReducer, useRef, useCallback } from 'react';
 import { remote } from 'electron';
 import { Theme } from '../home/components/ThemeSelection';
 
@@ -34,8 +34,18 @@ const Teleprompter = () => {
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [forceUpdate, setForceUpdate] = useState<boolean>(false);
-  const [index, setIndex] = useState<number>(0);
-  const [wordIndex, setWordIndex] = useState<number>(0);
+  const [index, _setIndex] = useState<number>(0);
+  const indexRef = useRef(index);
+  const setIndex = (value: number) => {
+    indexRef.current = value;
+    _setIndex(value);
+  };
+  const [wordIndex, _setWordIndex] = useState<number>(0);
+  const wordIndexRef = useRef(wordIndex);
+  const setWordIndex = (value: number) => {
+    wordIndexRef.current = value;
+    _setWordIndex(value);
+  };
   const [hasListener, setHasListener] = useState<boolean>(false);
 
   useEffect(() => {
@@ -98,6 +108,8 @@ const Teleprompter = () => {
   const streamCallback = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (_: any, data: string) => {
+      let index = indexRef.current;
+      let wordIndex = wordIndexRef.current;
       const currentWords = state.content[index].split(' ');
       const startIndex = wordIndex;
       const wordsLength = currentWords.length;
@@ -119,6 +131,8 @@ const Teleprompter = () => {
           highestFound = i;
         }
       }
+
+      index = indexRef.current;
 
       if (highestFound > 0 && highestFound >= wordsLength - 4) {
         setWordIndex(0);
