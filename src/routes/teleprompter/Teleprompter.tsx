@@ -79,7 +79,7 @@ const Teleprompter = () => {
   useEffect(() => {
     if (!state.autoscroll && isPlaying) {
       const interval = setInterval(() => {
-        if (index < state.content.length) {
+        if (index < state.content.length - 1) {
           setIndex(index + 1);
         } else {
           setIsPlaying(false);
