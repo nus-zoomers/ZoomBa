@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useReducer,
+  useRef,
+  useCallback,
+} from 'react';
 import { remote } from 'electron';
 import { Theme } from '../home/components/ThemeSelection';
 
@@ -15,6 +21,7 @@ const Teleprompter = () => {
     fontSize: number;
     autoscroll: boolean;
     speed: number;
+    isLoading: boolean;
   }
 
   const [state, setState] = useReducer(
@@ -27,12 +34,25 @@ const Teleprompter = () => {
       fontSize: 24,
       autoscroll: true,
       speed: 3.0,
+      isLoading: true,
     }
   );
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [forceUpdate, setForceUpdate] = useState<boolean>(false);
   const [index, setIndex] = useState<number>(0);
+  const indexRef = useRef(index);
+  const setNewIndex = (value: number) => {
+    indexRef.current = value;
+    setIndex(value);
+  };
+  const [wordIndex, setWordIndex] = useState<number>(0);
+  const wordIndexRef = useRef(wordIndex);
+  const setNewWordIndex = (value: number) => {
+    wordIndexRef.current = value;
+    setWordIndex(value);
+  };
+  const [hasListener, setHasListener] = useState<boolean>(false);
 
   useEffect(() => {
     if (forceUpdate) {
@@ -55,6 +75,7 @@ const Teleprompter = () => {
         fontSize,
         autoscroll,
         speed,
+        isLoading: false,
       });
       setIndex(0);
       setIsPlaying(false);
@@ -90,7 +111,62 @@ const Teleprompter = () => {
     return () => null;
   }, [isPlaying, index, state.autoscroll, state.content.length, state.speed]);
 
+  const streamCallback = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (_: any, data: string) => {
+      let currIndex = indexRef.current;
+      const currWordIndex = wordIndexRef.current;
+      const currentWords = state.content[currIndex].split(' ');
+      const startIndex = currWordIndex;
+      const wordsLength = currentWords.length;
+      if (startIndex >= wordsLength - 4) {
+        setNewWordIndex(0);
+        if (currIndex < state.content.length - 1) {
+          setNewIndex(currIndex + 1);
+        }
+      }
+
+      let highestFound = -1;
+
+      for (
+        let i = startIndex, j = Math.min(startIndex + 5, wordsLength);
+        i < j;
+        i += 1
+      ) {
+        if (data.indexOf(currentWords[i].toLowerCase()) !== -1) {
+          highestFound = i;
+        }
+      }
+
+      currIndex = indexRef.current;
+
+      if (highestFound > 0 && highestFound >= wordsLength - 4) {
+        setNewWordIndex(0);
+        if (currIndex < state.content.length - 1) {
+          setNewIndex(currIndex + 1);
+        }
+      } else if (highestFound > 0) {
+        setNewWordIndex(highestFound);
+      }
+    },
+    [state.content]
+  );
+
+  useEffect(() => {
+    if (state.autoscroll && !state.isLoading) {
+      ipcRenderer.send('start-stream');
+      setIsPlaying(true);
+      if (!hasListener) {
+        ipcRenderer.on('transcription', streamCallback);
+        setHasListener(true);
+      }
+    }
+  }, [hasListener, state.autoscroll, state.isLoading, streamCallback]);
+
   const handleTeleprompterExit = () => {
+    if (state.autoscroll && isPlaying) {
+      ipcRenderer.send('stop-stream');
+    }
     ipcRenderer.send('show-mainwindow-to-main', '');
     const window = remote.getCurrentWindow();
 
@@ -104,6 +180,13 @@ const Teleprompter = () => {
   };
 
   const handleTeleprompterPausePlay = () => {
+    if (state.autoscroll) {
+      if (isPlaying) {
+        ipcRenderer.send('stop-stream');
+      } else {
+        ipcRenderer.send('start-stream');
+      }
+    }
     setIsPlaying(!isPlaying);
   };
 
