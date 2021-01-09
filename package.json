@@ -1,6 +1,6 @@
 {
-  "name": "zoomers",
-  "productName": "Zoomers",
+  "name": "zoomba",
+  "productName": "ZoomBa",
   "description": "Video conference presentation script renderer / teleprompter",
   "private": "true",
   "scripts": {
@@ -31,8 +31,8 @@
     ]
   },
   "build": {
-    "productName": "Zoomers",
-    "appId": "org.nus-zoomers.Zoomers",
+    "productName": "ZoomBa",
+    "appId": "org.nus-zoomers.ZoomBa",
     "files": [
       "dist/",
       "node_modules/",

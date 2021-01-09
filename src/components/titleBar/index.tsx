@@ -37,7 +37,7 @@ const TitleBar = () => {
         <button type="button" id="max-btn" onClick={handleMaximise}>
           {' '}
         </button>
-        <div id="title">Zoomers</div>
+        <div id="title">ZoomBa</div>
       </div>
     </div>
   );
