@@ -1,6 +1,9 @@
 # ZoomBa
 
-<p align="center"><img width="40%" src=".erb/img/main.png" ></img></p>
+<p align="center"><img width="80%" src=".erb/img/main.png" ></img></p>
+
+<p align="center"><img width="80%" src=".erb/img/caption.jpg" ></img></p>
+
 ## Inspiration
 
 Face to face presentations are finally no more. No longer do we need to memorise a script the night before. No longer do we need to struggle to remember the words in front of everyone. No longer do we need to flunk our presentation modules.
